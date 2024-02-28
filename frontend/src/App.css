@@ -1,0 +1,65 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+/* .app{
+  margin: 0;
+  padding: 10%;
+  background-color: aquamarine;
+}
+
+.card{
+  overflow: hidden;
+  width: 525px;
+  height: 759px;
+  margin: auto;
+  padding: auto;
+  background-color: #f1f1f1;;
+  border-radius: 20px;
+}
+
+.login-head{
+  display: flex;
+  height: 78px;
+  font-size: 16px;
+  border: 1px solid;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-head > span{
+  margin: auto;
+}
+
+.login-head > button{
+  margin-right: 5%;
+  height: 24px;
+  width: 20px;
+}
+
+
+.title{
+  display: flex;
+  margin-top: 44px;
+  margin-bottom: 58px;
+}
+
+.title > h1{
+  margin: auto;
+}
+
+.title >h1> span {
+  background-color: #698152;
+  color: white;
+  line-height: 44px;
+  text-align: center;
+  border-radius: 5px;
+  letter-spacing:  2px;
+} */
