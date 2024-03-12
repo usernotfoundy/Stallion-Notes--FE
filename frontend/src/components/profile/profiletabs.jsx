@@ -57,7 +57,7 @@ function ProfileTab(props) {
       }}
     >
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', padding: 0, backgroundColor:'pink' , mt:'5px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', padding: 0, mt:'5px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <Avatar
             alt=""
@@ -135,6 +135,7 @@ function ProfileTab(props) {
             </ListItem>
           }
         />
+        
       </Tabs>
       </Box>
   );

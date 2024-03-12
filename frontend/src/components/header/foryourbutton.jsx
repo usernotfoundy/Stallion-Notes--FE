@@ -5,7 +5,7 @@ import HomeIcon from '@mui/icons-material/Home';
 
 export default function IconLabelButtons() {
   return (
-      <Button startIcon={<HomeIcon />} sx={{color:'#50623A', margin:'0px 5px'}}>
+      <Button startIcon={<HomeIcon />} sx={{color:'#50623A', margin:'0px 5px', fontFamily:'Poppins'}}>
         For You
       </Button>
   );

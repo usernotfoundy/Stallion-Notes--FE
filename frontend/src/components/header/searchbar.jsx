@@ -1,47 +1,72 @@
-// import React from 'react';
-import TextField from '@mui/material/TextField';
+import * as React from 'react';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
+import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchBar = ({ onSearch }) => {
+export default function SearchBar() {
+  const textFieldProps = {
+    InputProps: {
+      style: {
+        fontFamily: 'Poppins',
+      },
+    },
+  };
+  
+  const [searchField, setSearchField] = React.useState('');
+
   const handleSearchChange = (event) => {
-    const searchTerm = event.target.value;
-    onSearch(searchTerm);
+    setSearchField(event.target.value);
   };
 
-  const handleSearchButtonClick = () => {
-    // You can perform additional actions when the search button is clicked
-    // For example, you might want to trigger the search immediately
-    // onSearch(searchTerm);
+  const handleSearchClick = () => {
+    console.log('Search Clicked');
+  };
+
+  const handleClearClick = () => {
+    setSearchField('');
   };
 
   return (
-    <TextField
-      placeholder="Search Items"
-      InputProps={{
-        startAdornment: (
-          <IconButton
-            color="primary"
-            aria-label="search"
-            onClick={handleSearchButtonClick}
-          >
-            <SearchIcon sx={{color: '#50623A' }} />
-          </IconButton>
-        ),
-      }}
+    <Paper
       sx={{
-        '& .MuiOutlinedInput-root': {
-          borderColor: '#50623A',
-          borderWidth: '3px',
-          height: '35px',
-        },
-        '& .MuiOutlinedInput-notchedOutline': {
-          border: 'none',
-        }, margin:'0px 5px'
+        p: '2px 4px',
+        display: 'flex',
+        alignItems: 'center',
+        width: 400,
+        borderColor: '#50623A',
+        borderWidth: '2px',
+        borderStyle: 'solid',
+        height: 35,
       }}
-      onChange={handleSearchChange}
-    />
+    >
+      <IconButton
+        type="button"
+        sx={{ p: '10px', color: '#50623A' }}
+        aria-label="search"
+        onClick={handleSearchClick}
+      >
+        <SearchIcon />
+      </IconButton>
+      <InputBase
+        sx={{
+          ml: 1,
+          flex: 1,
+          fontFamily: 'Poppins',
+        }}
+        placeholder="Search Items"
+        inputProps={{ 'aria-label': 'Search Items' }}
+        value={searchField}
+        onChange={handleSearchChange}
+      />
+      <IconButton
+        sx={{ p: '10px' }}
+        aria-label="clear"
+        onClick={handleClearClick}
+      >
+        <ClearIcon />
+      </IconButton>
+    </Paper>
   );
-};
-
-export default SearchBar;
+}

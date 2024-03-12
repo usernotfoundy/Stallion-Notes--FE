@@ -97,6 +97,7 @@ function ResponsiveAppBar() {
               fontWeight: 700,
               color: '#50623A',
               textDecoration: 'none',
+              fontFamily:'Poppins'
             }}
           >
             Stallion Notes
@@ -107,7 +108,7 @@ function ResponsiveAppBar() {
             <SearchBar sx={{}} />
           </Box>
           <Box sx={{ flexGrow: 0, display: 'flex', justifyContent: 'right', mx: 'auto', marginRight: '0px' }}>
-            <Button variant="contained" component="label" role={undefined} onClick={handleUpload} color="success" startIcon={<CloudUploadIcon />} sx={{ margin: '5px', fontSize: '13px', backgroundColor: '#50623A' }}>
+            <Button variant="contained" component="label" role={undefined} onClick={handleUpload} color="success" fontFamily='Poppins' startIcon={<CloudUploadIcon />} sx={{ margin: '5px', fontSize: '13px', backgroundColor: '#50623A' }}>
               Upload
               <VisuallyHiddenInput type="file" onChange={handleImageChange} />
             </Button>
