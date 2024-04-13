@@ -29,7 +29,7 @@ const FeedbackModal = ({ open, onClose }) => {
           pl:3,
           pr:3,
           pb:1,
-          pr:3,
+          // pr:3,
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize:'250px',
           backgroundRepeat: 'no-repeat',
