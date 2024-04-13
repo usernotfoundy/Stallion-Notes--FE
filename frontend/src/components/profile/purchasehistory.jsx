@@ -1,4 +1,4 @@
-import * as React from 'react';
+/* eslint-disable no-unused-vars */
 import Typography from '@mui/material/Typography';
 import {Container, Divider, Box, TableHead, TableRow, TableCell, Table } from '@mui/material';
 import ItemCard from '../items/itemcard';

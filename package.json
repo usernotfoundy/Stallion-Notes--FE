@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "prop-types": "^15.8.1"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}

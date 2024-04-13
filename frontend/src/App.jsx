@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       {/* <ResponsiveAppBar/> */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', mx: 'auto' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', mx: 'auto' , backgroundColor: '#f5f5f5'}}>
         {/* <BasicMenu/> */}
         <Router>
 
@@ -19,7 +19,7 @@ function App() {
           <AppRouter />
 
           {/* test button that hides when loggedin */}
-          <CButton />
+          {/* <CButton name="ems" /> */}
         </Router>
 
       </Box>

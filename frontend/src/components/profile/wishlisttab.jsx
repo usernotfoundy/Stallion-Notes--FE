@@ -1,4 +1,4 @@
-import * as React from 'react';
+/* eslint-disable no-unused-vars */
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Button, Container, Divider, Box, Avatar } from '@mui/material';

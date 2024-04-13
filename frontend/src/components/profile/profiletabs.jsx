@@ -1,4 +1,5 @@
-import * as React from 'react';
+/* eslint-disable no-unused-vars */
+import { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -14,6 +15,7 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { styled } from '@mui/material/styles';
 import { Divider } from '@mui/material';
+import axios from 'axios';
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   '&.Mui-selected': {
@@ -39,13 +41,40 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 function ProfileTab(props) {
   const { value, handleChange } = props;
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.body.style.overflow = 'hidden';
 
     return () => {
       document.body.style.overflow = 'auto';
     };
   }, []);
+
+  const [img, setImg] = useState(null);
+    const Profile_Url = img;
+    const pic = async () => {
+        // event.preventDefault();
+        try {
+        const token = localStorage.getItem('authToken');
+    
+        const response = await axios.get('https://tisap.pythonanywhere.com/view-profile/', {
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            },
+        });
+        // console.log(response.data.profile_img);
+        setImg(response.data.profile_img);
+        // Assuming the message is in response.data
+        
+        } catch (error) {
+        console.log(error)
+        }
+    };
+
+    useEffect(() => {
+        pic();
+    }, []);
+
 
   return (
     <Box
@@ -61,7 +90,7 @@ function ProfileTab(props) {
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <Avatar
             alt=""
-            src="/static/images/avatar/1.jpg"
+            src={Profile_Url}
             sx={{ width: 80, height: 80, mr: 1, border:'3px solid #50623A'}}
           />
           

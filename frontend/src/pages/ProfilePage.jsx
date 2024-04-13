@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import ResponsiveAppBar from '../components/header/header-frontend';
 import ProfileTab from '../components/profile/profiletabs';
@@ -18,7 +18,7 @@ const ProfilePage = () => {
     color: theme.palette.text.secondary,
   }));
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

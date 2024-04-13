@@ -9,10 +9,12 @@
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import cors from '@koa/cors'
 
 export default defineConfig({
   plugins: [react()],
   server: {
+    middleware: [cors()], // Use CORS middleware
     fs: {
       // Specify directories to allow serving files from
       allow: [

@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable no-unused-vars */
+import { useState, useEffect, useCallback } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
     TextField,
     Button,
@@ -26,9 +28,24 @@ const BookForm = () => {
     // const [author, setAuthor] = useState('');
     // const [genre, setGenre] = useState('');
 
-    const Book_URL = 'http://127.0.0.1:8000/create-book/';
-
+    const Book_URL = 'https://tisap.pythonanywhere.com/create-book/';
     const token = localStorage.getItem('authToken')
+
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`https://tisap.pythonanywhere.com/delete-book/${id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            // Update the books list after deletion
+            viewBooks();
+        } catch (error) {
+            console.error('Error deleting book:', error);
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         // Create a new book object
@@ -70,10 +87,10 @@ const BookForm = () => {
 
     const [books, setBooks] = useState([]);
 
-    const viewBooks = async () => {
+    const viewBooks = useCallback( async () => {
 
         try {
-            const res = await axios.get('http://127.0.0.1:8000/view-books/', {
+            const res = await axios.get('https://tisap.pythonanywhere.com/view-books/', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
@@ -85,11 +102,13 @@ const BookForm = () => {
         } catch (error) {
             console.error('Error fetching books:', error);
         }
-    };
+    }, [token]);
 
     useEffect(() => {
         viewBooks();
-    }, []);
+    }, [viewBooks]);
+
+    
 
 
 
@@ -160,36 +179,6 @@ const BookForm = () => {
                             onChange={(e) => setPrice(e.target.value)}
                         />
                     </Grid>
-                    {/* <Grid item xs={12} sm={6}>
-                    <FormControl variant="outlined" fullWidth>
-                        <InputLabel>Author</InputLabel>
-                        <Select
-                            name="author"
-                            value={author}
-                            onChange={(e) => setAuthor(e.target.value)}
-                            label="Author"
-                        >
-                            <MenuItem value="author1">Author 1</MenuItem>
-                            <MenuItem value="author2">Author 2</MenuItem>
-                            <MenuItem value="author3">Author 3</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <FormControl variant="outlined" fullWidth>
-                        <InputLabel>Genre</InputLabel>
-                        <Select
-                            name="genre"
-                            value={genre}
-                            onChange={(e) => setGenre(e.target.value)}
-                            label="Genre"
-                        >
-                            <MenuItem value="genre1">Genre 1</MenuItem>
-                            <MenuItem value="genre2">Genre 2</MenuItem>
-                            <MenuItem value="genre3">Genre 3</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid> */}
                     <Grid item xs={12}>
                         <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
                             Add Book
@@ -199,19 +188,6 @@ const BookForm = () => {
             </form>
 
             <div>
-                {/* <h1>All Books</h1>
-                <ul>
-                    {books.map(book => (
-                        <li key={book.id}>
-                            <h3>{book.title}</h3>
-                            <p>{book.description}</p>
-                            <p>Author: {book.author}</p>
-                            <p>Genre: {book.genre.genre_name}</p>
-                            <br />
-                        </li>
-                    ))}
-                </ul> */}
-
                 <Typography variant="h1">All Books</Typography>
                 <List>
                     {books.map(book => (
@@ -222,10 +198,15 @@ const BookForm = () => {
                                     <>
                                         <Typography variant="body2">{book.description}</Typography>
                                         <Typography variant="body2">Author: {book.author}</Typography>
-                                        <Typography variant="body2">Genre: {book.genre.genre_name}</Typography>
+                                        {/* <Typography variant="body2">Genre: {book.genre.genre_name}</Typography> */}
                                     </>
                                 }
                             />
+                            <ListItemSecondaryAction>
+                                <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(book.id)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
                             {/* You can add a delete button here if needed */}
                             {/* <ListItemSecondaryAction>
                             <IconButton edge="end" aria-label="delete">
