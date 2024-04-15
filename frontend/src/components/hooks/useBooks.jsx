@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 
+const VIEW_BOOKS_API_URL = 'http://127.0.0.1:8000/view-books/'
+
 const useBooks = (token) => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +11,7 @@ const useBooks = (token) => {
   const fetchBooks = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get('https://tisap.pythonanywhere.com/view-books/', {
+      const response = await axios.get(VIEW_BOOKS_API_URL, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       setBooks(response.data);

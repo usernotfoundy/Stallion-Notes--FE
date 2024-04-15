@@ -17,6 +17,10 @@ import { styled } from '@mui/material/styles';
 import { Divider } from '@mui/material';
 import axios from 'axios';
 
+const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/';
+const token = localStorage.getItem('authToken');
+
+
 const StyledTab = styled(Tab)(({ theme }) => ({
   '&.Mui-selected': {
     backgroundColor: theme.palette.mode === 'dark' ? '#ffffff' : '#E0E0E0',
@@ -40,6 +44,31 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 
 function ProfileTab(props) {
   const { value, handleChange } = props;
+  const [img, setImg] = useState(null);
+  const [username, setUsername] = useState();
+  const [name, setName] = useState();
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(VIEW_PROFILE_API_URL, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        // console.log("View profile data", response.data);
+        setImg(response.data.profile_img);
+        setUsername(response.data.email);
+        setName(response.data.username);
+      } catch (err) {
+        console.error('Failed to view posted book information', err);
+        alert('Failed to view posted book information');
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -49,31 +78,31 @@ function ProfileTab(props) {
     };
   }, []);
 
-  const [img, setImg] = useState(null);
-    const Profile_Url = img;
-    const pic = async () => {
-        // event.preventDefault();
-        try {
-        const token = localStorage.getItem('authToken');
+  // const [img, setImg] = useState(null);
+  //   const Profile_Url = img;
+  //   const pic = async () => {
+  //       // event.preventDefault();
+  //       try {
+  //       const token = localStorage.getItem('authToken');
     
-        const response = await axios.get('https://tisap.pythonanywhere.com/view-profile/', {
-            headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            },
-        });
-        // console.log(response.data.profile_img);
-        setImg(response.data.profile_img);
-        // Assuming the message is in response.data
+  //       const response = await axios.get(VIEW_PROFILE_API_URL, {
+  //           headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': `Bearer ${token}`,
+  //           },
+  //       });
+  //       // console.log(response.data.profile_img);
+  //       setImg(response.data.profile_img);
+  //       // Assuming the message is in response.data
         
-        } catch (error) {
-        console.log(error)
-        }
-    };
+  //       } catch (error) {
+  //       console.log(error)
+  //       }
+  //   };
 
-    useEffect(() => {
-        pic();
-    }, []);
+    // useEffect(() => {
+    //     pic();
+    // }, []);
 
 
   return (
@@ -90,13 +119,13 @@ function ProfileTab(props) {
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <Avatar
             alt=""
-            src={Profile_Url}
+            src={img}
             sx={{ width: 80, height: 80, mr: 1, border:'3px solid #50623A'}}
           />
           
           <div>
-            <Typography variant="subtitle1" color='#50623A' fontWeight='bold' fontFamily='Poppins'>Full Name/Username</Typography>
-            <Typography variant="body2" color="#50623A" fontFamily='Poppins'> user@example.com</Typography>
+            <Typography sx={{ width: 140 }} variant="subtitle1" color='#50623A' fontWeight='bold' fontFamily='Poppins' noWrap>@{name}</Typography>
+            <Typography sx={{ width: 140 }} variant="body2" color="#50623A" fontFamily='Poppins' noWrap> {username}</Typography>
           </div>
         </Box>
       </Box>

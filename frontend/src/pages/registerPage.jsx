@@ -4,9 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import UserGreeting from '../components/userGreetings';
 
-const REGISTER_API_URL = 'https://tisap.pythonanywhere.com/register/';
-const COLLEGES_API_URL = 'https://tisap.pythonanywhere.com/view-college/';
-const COURSES_API_URL = 'https://tisap.pythonanywhere.com/view-course/';
+// const REGISTER_API_URL = 'https://tisap.pythonanywhere.com/register/';
+// const COLLEGES_API_URL = 'https://tisap.pythonanywhere.com/view-college/';
+// const COURSES_API_URL = 'https://tisap.pythonanywhere.com/view-course/';
+
+const REGISTER_API_URL = 'http://127.0.0.1:8000/register/';
+const COLLEGES_API_URL = 'http://127.0.0.1:8000/view-college/';
+const COURSES_API_URL = 'http://127.0.0.1:8000/view-course/';
+
+
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -38,33 +44,24 @@ export const RegisterPage = () => {
     fetchColleges();
   }, []);
 
-  // const handleCollegeChange = async (collegeId) => {
-  //   try {
-  //     const response = await axios.get(COURSES_API_URL,{
-  //       params: { college: collegeId }
-  //     });
-  //     setCourseOptions(response.data);
-  //   } catch (error) {
-  //     console.error('Error fetching courses:', error);
-  //   }
-  // };
-  const handleCollegeChange = async () => {
-    try {
-      const response = await axios.get(COURSES_API_URL, {
-        params: { college: selectedCollegeId },
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      console.log(selectedCollegeId)
-      setCourseOptions(response.data);
-      console.log(response);
-    } catch (error) {
-      console.error('Error fetching courses:', error);
-    }
-  };
-  
-  
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get(COURSES_API_URL, {
+          params: { college: selectedCollegeId },
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        setCourseOptions(response.data);
+        console.log("courses" + response.data);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
+    fetchCourses();
+  }, [selectedCollegeId]); // Add selectedCollegeId as a dependency
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -82,8 +79,8 @@ export const RegisterPage = () => {
       middle_name: middleName,
       email,
       phone_number: phoneNumber,
-      college,
-      // course,
+      // college,
+      course,
     };
 
     try {
@@ -124,14 +121,14 @@ export const RegisterPage = () => {
           value={college}
           onChange={(e) => {
             setCollege(e.target.value);
-            console.log(college);
             setSelectedCollegeId(e.target.value);
-            handleCollegeChange(e.target.value);
+            console.log(selectedCollegeId);
+            // handleCollegeChange(e.target.value);
           }}
         >
-          <MenuItem value="">None</MenuItem>
+          <MenuItem value="none">None</MenuItem>
           {collegeOptions.map(college => (
-            <MenuItem key={college.id} value={college.id}>{college.college_name}</MenuItem>
+            <MenuItem key={college.id} value={college? college.id : "none"}>{college? college.college_name : "none"}</MenuItem>
           ))}
         </Select>
         <InputLabel id="course-label">Select Course</InputLabel>
@@ -141,9 +138,9 @@ export const RegisterPage = () => {
           value={course}
           onChange={(e) => setCourse(e.target.value)}
         >
-          <MenuItem value="">None</MenuItem>
+          <MenuItem value="none">None</MenuItem>
           {courseOptions.map(course => (
-            <MenuItem key={course.course.id} value={course.course.id}>{course.course.course_name}</MenuItem>
+            <MenuItem key={course.id} value={course.id}>{course.Course}</MenuItem>
           ))}
         </Select>
 

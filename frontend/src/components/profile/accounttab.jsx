@@ -4,6 +4,10 @@ import Typography from '@mui/material/Typography';
 import { Divider, Box, Button, Container, Avatar, Grid, TextField } from '@mui/material';
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+
+const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/';
+const UPDATE_PROFILE_API_URL = 'http://127.0.0.1:8000/update-user/';
 
 export default function AccountFor() {
     const [isEditButton, setIsEditButton] = useState(false);
@@ -15,10 +19,11 @@ export default function AccountFor() {
 
     const token = localStorage.getItem('authToken');
     // const [reloadContainer, setReloadContainer] = useState(false);
+    const navigate = useNavigate();
 
     const viewProfiles = useCallback(async () => {
         try {
-            const res = await axios.get('https://tisap.pythonanywhere.com/view-profile/', {
+            const res = await axios.get(VIEW_PROFILE_API_URL, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
@@ -26,6 +31,7 @@ export default function AccountFor() {
             });
             setProfile(res.data);
             setEditedProfile({ ...res.data });
+            // console.log(res.data.profile_img);
         } catch (error) {
             console.error('Error fetching profile:', error);
             setError(error);
@@ -35,13 +41,6 @@ export default function AccountFor() {
     useEffect(() => {
         viewProfiles();
     }, [viewProfiles]);
-
-    // useEffect(() =>{
-    //     if (reloadContainer) {
-    //         // Perform any necessary actions to reload the container
-    //         setReloadContainer(false); // Reset reloadContainer to false after reloading
-    //     }
-    // },[reloadContainer])
 
     const handleEditClick = () => {
         setIsEditButton(true);
@@ -58,7 +57,7 @@ export default function AccountFor() {
         formData.append('email', editedProfile.email);
         // formData.append('course', editedProfile.course);
         try {
-            const res = await axios.patch('https://tisap.pythonanywhere.com/update-user/', formData, {
+            const res = await axios.patch(UPDATE_PROFILE_API_URL, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`,
@@ -69,8 +68,9 @@ export default function AccountFor() {
             // setReloadContainer(true); 
             // setTimeout(() => {
             //     window.location.reload();
-            // }, 3000); // Reload the page after 5 seconds (5000 milliseconds)
-            
+            // }, 3000); 
+            // Reload the page after 5 seconds (5000 milliseconds)
+
         } catch (error) {
             console.error('Error updating profile:', error);
             setError(error);
@@ -84,6 +84,7 @@ export default function AccountFor() {
             [name]: value,
         }));
     };
+    
     const textFieldProps = {
         InputProps: {
             style: {
@@ -115,16 +116,10 @@ export default function AccountFor() {
 
         const formData = new FormData();
         formData.append('profile_img', image);
-        // formData.append('usernname', editedProfile.username);
-        // formData.append('firs_name', editedProfile.first_name);
-        // formData.append('last_name', editedProfile.last_name);
-        // formData.append('middle_name', editedProfile.middle_name);
-        // formData.append('phone_number', editedProfile.phone_number);
-        // formData.append('email', editedProfile.email);
 
         try {
             console.log('Uploading image:', image);
-            const response = await axios.patch('https://tisap.pythonanywhere.com/update-user/', formData, {
+            const response = await axios.patch(UPDATE_PROFILE_API_URL, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -135,11 +130,13 @@ export default function AccountFor() {
                 ...prevProfile,
                 avatarUrl: response.data.profile_img
             }));
+            window.location.reload();
             // setGetImg(response.data.profile_img);
+            // Reload the page after 5 seconds (5000 milliseconds)            
             // setTimeout(() => {
-            //     window.location.reload();
-            // }, 5000); // Reload the page after 5 seconds (5000 milliseconds)            
-            // setReloadContainer(true); 
+            //     navigate('/');
+            // }, 5000); 
+            // setReloadContainer(true);
         } catch (err) {
             console.error('Error uploading image:', err);
             setError('Error uploading image');
@@ -152,20 +149,20 @@ export default function AccountFor() {
     const pic = async () => {
         // event.preventDefault();
         try {
-        const token = localStorage.getItem('authToken');
-    
-        const response = await axios.get('https://tisap.pythonanywhere.com/view-profile/', {
-            headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            },
-        });
-        // console.log(response.data.profile_img);
-        setImg(response.data.profile_img);
-        // Assuming the message is in response.data
+            const token = localStorage.getItem('authToken');
+
+            const response = await axios.get(VIEW_PROFILE_API_URL, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            // console.log(response.data.profile_img);
+            setImg(response.data.profile_img);
+            // Assuming the message is in response.data
 
         } catch (error) {
-        console.log(error)
+            console.log(error)
         }
     };
 

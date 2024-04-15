@@ -13,7 +13,32 @@ import RightBar from "../components/homepage/RightBar";
 import FeedbackButton from "../components/feedbackbtn";
 
 const HomePage = () => {
-
+  /*
+     # Authentication APIs
+      const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-users/'
+      const REGISTER_URL = 'http://127.0.0.1:8000/register/'
+      const LOGIN_URL = 'http://127.0.0.1:8000/login/'
+      const UPDATE_PROFILE_URL = 'http://127.0.0.1:8000/update-user/'
+      const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/'
+  
+      # College & Course APIs
+      const CREATE_COLLEGE_API_URL = 'http://127.0.0.1:8000/create-college/'
+      const VIEW_COLLEGE_API_URL = 'http://127.0.0.1:8000/view-college/'
+      const CREATE_COURSE_API_URL = 'http://127.0.0.1:8000/create-course/'
+      const VIEW_COURSE_API_URL = 'http://127.0.0.1:8000/view-course/'
+  
+      # Book Management APIs
+      const VIEW_BOOKS_API_URL = 'http://127.0.0.1:8000/view-books/'
+      const UPLOAD_BOOKS_API_URL = 'http://127.0.0.1:8000/create-book/'
+      const UPDATE_BOOKS_API_URL = 'http://127.0.0.1:8000/update-book/'
+      const DELETE_BOOKS_API_URL = 'http://127.0.0.1:8000/delete-book/'
+      const SEARCH_BOOKS_URL = 'http://127.0.0.1:8000/search-book/'
+      const GENRE_API_URL = 'http://127.0.0.1:8000/get-genre/'
+  
+      # Cart Management APIs
+      const ADD_CART_API_URL = 'http://127.0.0.1:8000/add-cart/'
+      const VIEW_CART_API_URL = 'http://127.0.0.1:8000/view-cart/'
+  */
 
     return (
         <>

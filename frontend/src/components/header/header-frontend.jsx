@@ -17,6 +17,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const VIEW_BOOKS_API_URL = 'http://127.0.0.1:8000/view-books/'
+const UPLOAD_BOOKS_API_URL = 'http://127.0.0.1:8000/create-book/'
 
 function ResponsiveAppBar() {
   const [openUpload, setOpenUpload] = useState(false);
@@ -69,7 +71,7 @@ function ResponsiveAppBar() {
 
     try {
       const token = localStorage.getItem('authToken');
-      const response = await axios.post('https://tisap.pythonanywhere.com/create-book/', formData, {
+      const response = await axios.post(UPLOAD_BOOKS_API_URL, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,

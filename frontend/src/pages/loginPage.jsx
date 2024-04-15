@@ -9,7 +9,7 @@ import Axios from 'axios';
 import bg from '../imgs/bg.svg'
 
 // Replace '' with your actual backend endpoint URL for login
-const LOGIN_API_URL = 'https://tisap.pythonanywhere.com/login/';
+const LOGIN_API_URL = 'http://127.0.0.1:8000/login/';
 
 const LoginPage = () => {
   // State hooks for username and password

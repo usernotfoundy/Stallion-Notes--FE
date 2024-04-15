@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 // const Profile_Url = "http://localhost:8000/static/images/profile/emman_prfl.jpg";
+const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/';
+
 
 export default function BasicMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -22,7 +24,7 @@ export default function BasicMenu() {
     try {
       const token = localStorage.getItem('authToken');
   
-      const response = await Axios.get('https://tisap.pythonanywhere.com/view-profile/', {
+      const response = await Axios.get(VIEW_PROFILE_API_URL, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
@@ -99,7 +101,7 @@ export default function BasicMenu() {
         <MenuItem onClick={profile} fontFamily='Poppins'>Profile</MenuItem>
         <MenuItem onClick={handleClose} fontFamily='Poppins'>Settings</MenuItem>
         <MenuItem onClick={logout}fontFamily='Poppins'>Logout</MenuItem>
-        <MenuItem onClick={pic}fontFamily='Poppins'>see console</MenuItem>
+        {/* <MenuItem onClick={pic}fontFamily='Poppins'>see console</MenuItem> */}
       </Menu>
     </div>
   );
