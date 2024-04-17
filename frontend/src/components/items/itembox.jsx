@@ -67,7 +67,7 @@ const ItemBox = ({ img, id, title, description, price, onDelete, onEdit }) => {
           height='115px'
           borderRadius='5px'
           style={{
-            backgroundImage: img ? `url("${img}")` : 'url("https://tisap.pythonanywhere.com/media/books/id.png")',
+            backgroundImage: img ? `url("${img}")` : 'url("https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             display: 'flex',

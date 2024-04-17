@@ -1,5 +1,5 @@
 /*eslint-disable  no-unused-vars*/
-import React, { useState } from 'react';
+import { useState , useEffect} from 'react';
 import './header.css';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,6 +19,8 @@ import { useNavigate } from 'react-router-dom';
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const VIEW_BOOKS_API_URL = 'http://127.0.0.1:8000/view-books/'
 const UPLOAD_BOOKS_API_URL = 'http://127.0.0.1:8000/create-book/'
+const SEARCH_BOOKS_API_URL ='http://127.0.0.1:8000/search-book/'
+const token = localStorage.getItem('authToken')
 
 function ResponsiveAppBar() {
   const [openUpload, setOpenUpload] = useState(false);
@@ -28,6 +30,7 @@ function ResponsiveAppBar() {
   const [price, setPrice] = useState('');
   const [bookImg, setBookImg] = useState(null);
   const [error, setError] = useState('');
+  const [input, setInput] = useState(null);
 
   const navigate = useNavigate('/');
 
@@ -95,6 +98,32 @@ function ResponsiveAppBar() {
     navigate('/');
   }
 
+  const fetchData = async (query) => {
+    try {
+      const url = query ? `${SEARCH_BOOKS_API_URL}query=${query}` : SEARCH_BOOKS_API_URL;
+      const response = await axios.get(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log("Viewed Searched data", response.data);
+      // setPosts(response.data);  // Store all posts in state
+    } catch (err) {
+      console.error('Failed to view searched book information', err);
+      alert('Failed to view searched book information');
+    }
+  };
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
+  const handleInput = (value) =>{
+    setInput(value);
+    fetchData(value)
+  }
+  
+
 
   return (
     <>
@@ -120,7 +149,8 @@ function ResponsiveAppBar() {
             <Box sx={{ flexGrow: 0, display: 'flex', justifyContent: 'center', mx: 'auto', marginRight: '0px' }}>
               <ForYouButton  sx={{ margin: '5px', }} />
               <ExploreButton sx={{ margin: '5px', }} />
-              <SearchBar sx={{}} />
+              {/* <SearchBar sx={{}} value={input} onChange={(e)=> handleInput(e.target.value)}/> */}
+              <SearchBar sx={{}} apiUrl={SEARCH_BOOKS_API_URL} token={token} />
             </Box>
             <Box sx={{ flexGrow: 0, display: 'flex', justifyContent: 'right', mx: 'auto', marginRight: '0px' }}>
               <Button variant="contained" onClick={handleOpenUpload} color="success" fontFamily='Poppins' startIcon={<CloudUploadIcon />} sx={{ margin: '5px', fontSize: '13px', backgroundColor: '#50623A' }}>

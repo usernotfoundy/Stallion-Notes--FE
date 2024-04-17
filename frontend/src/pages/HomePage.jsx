@@ -33,11 +33,14 @@ const HomePage = () => {
       const UPDATE_BOOKS_API_URL = 'http://127.0.0.1:8000/update-book/'
       const DELETE_BOOKS_API_URL = 'http://127.0.0.1:8000/delete-book/'
       const SEARCH_BOOKS_URL = 'http://127.0.0.1:8000/search-book/'
+      const EXPLORE_API_URL = 'http://127.0.0.1:8000/explore-books/';
       const GENRE_API_URL = 'http://127.0.0.1:8000/get-genre/'
   
       # Cart Management APIs
       const ADD_CART_API_URL = 'http://127.0.0.1:8000/add-cart/'
       const VIEW_CART_API_URL = 'http://127.0.0.1:8000/view-cart/'
+      const VIEW_POSTS_API_URL = 'http://127.0.0.1:8000/view-posts/';
+
   */
 
     return (
@@ -67,7 +70,6 @@ const HomePage = () => {
               </Grid>
             </Grid>
             <FeedbackButton />
-            
         </>
     )
 }

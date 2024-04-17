@@ -1,27 +1,46 @@
-import * as React from 'react';
+// SearchBar Component
+/*eslint-disable*/
+import { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
-import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
+import axios from 'axios';
 
-export default function SearchBar() {
-  const textFieldProps = {
-    InputProps: {
-      style: {
-        fontFamily: 'Poppins',
-      },
-    },
-  };
+export default function SearchBar({ apiUrl, token }) {
+  const [searchField, setSearchField] = useState('');
   
-  const [searchField, setSearchField] = React.useState('');
+  const fetchData = async (query) => {
+    try {
+      const url = query ? `${apiUrl}query=${query}` : "http://127.0.0.1:8000/explore-books/";
+      const response = await axios.get(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log("Viewed Searched data", response.data);
+    } catch (err) {
+      console.error('Failed to view searched book information', err);
+      alert('Failed to view searched book information');
+    }
+  };
 
   const handleSearchChange = (event) => {
     setSearchField(event.target.value);
   };
 
-  const handleSearchClick = () => {
-    console.log('Search Clicked');
+  const handleSearchClick = (e) => {
+    e.preventDefault();
+    fetchData(searchField);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default action to avoid a form submit which reloads the page
+      fetchData(searchField);
+    }
   };
 
   const handleClearClick = () => {
@@ -29,42 +48,13 @@ export default function SearchBar() {
   };
 
   return (
-    <Paper
-      sx={{
-        p: '2px 4px',
-        display: 'flex',
-        alignItems: 'center',
-        width: 400,
-        borderColor: '#50623A',
-        borderWidth: '2px',
-        borderStyle: 'solid',
-        height: 35,
-      }}
-    >
-      <IconButton
-        type="button"
-        sx={{ p: '10px', color: '#50623A' }}
-        aria-label="search"
-        onClick={handleSearchClick}
-      >
+    <Paper onSubmit={handleSearchClick} component="form" >
+      {/* Search components here */}
+      <IconButton onClick={handleSearchClick}>
         <SearchIcon />
       </IconButton>
-      <InputBase
-        sx={{
-          ml: 1,
-          flex: 1,
-          fontFamily: 'Poppins',
-        }}
-        placeholder="Search Items"
-        inputProps={{ 'aria-label': 'Search Items' }}
-        value={searchField}
-        onChange={handleSearchChange}
-      />
-      <IconButton
-        sx={{ p: '10px' }}
-        aria-label="clear"
-        onClick={handleClearClick}
-      >
+      <InputBase value={searchField} onChange={handleSearchChange} onKeyPress={handleKeyPress} />
+      <IconButton onClick={handleClearClick}>
         <ClearIcon />
       </IconButton>
     </Paper>

@@ -6,6 +6,7 @@ import LoginPage from './pages/loginPage';
 import { RegisterPage } from './pages/registerPage';
 import ProfilePage from './pages/ProfilePage';
 import ShoppingCartPage from './pages/ShoppingCartPage';
+import ExplorePage from './pages/ExplorePage';
 
 
 const AppRouter = () => (
@@ -17,6 +18,7 @@ const AppRouter = () => (
     <Route path="/register" element={<RegisterPage />} />
     <Route path="/profile" element={<ProfilePage/>}/>
     <Route path="/cart" element={<ShoppingCartPage/>}/>
+    <Route path="/explore" element={<ExplorePage/>}/>
     {/* Add more routes here */}
   </Routes>
 );
