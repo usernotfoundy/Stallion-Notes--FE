@@ -7,7 +7,7 @@ export default function LeftGrid() {
     <Box sx={{ maxHeight: '490px', overflow: 'auto', maxWidth: 'auto', position: 'relative' }}>
       <Box sx={{ position: 'sticky', top: '0', backgroundColor: 'white', zIndex: '1' }}>
         <Typography fontFamily="Poppins" fontWeight='bold' color='' sx={{ display: 'flex', justifyContent: 'start', fontSize: '28px' }} gutterBottom>
-          Purchase History
+          Shopping Cart
         </Typography>
         <Divider sx={{ borderBottom: 2 }} />
       </Box>

@@ -45,7 +45,7 @@ const HomePage = () => {
 
     return (
         <>
-            <ResponsiveAppBar />
+            <ResponsiveAppBar /> 
 
             {/* <Typography variant="h5" sx={{ display: 'flex', justifyContent: 'center',alignContent:'center', my: 'auto', width: '375px', fontWeight: 'medium', color: '' }}>Home</Typography> */}
             {/* <Button onClick={logout}> logout </Button> */}
@@ -55,7 +55,6 @@ const HomePage = () => {
               justifyContent="space-between"
             //   alignItems="center"
               alignContent="center"
-              
               >
               <Grid item>
                 <LeftBar/>
@@ -70,6 +69,7 @@ const HomePage = () => {
               </Grid>
             </Grid>
             <FeedbackButton />
+            </Box>
         </>
     )
 }

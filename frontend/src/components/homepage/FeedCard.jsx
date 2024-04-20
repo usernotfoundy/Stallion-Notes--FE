@@ -13,6 +13,7 @@ import Favorite from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
@@ -35,7 +36,7 @@ const ExpandMore = styled((props) => {
 export default function RecipeReviewCard() {
   const [expanded, setExpanded] = useState(false);
   const [postImg, setPostImg] = useState('http://127.0.0.1:8000//media/books/395368427_696500319030425_4487648936682276622_n.jpg');
-  const [name, setName]= useState('user');
+  const [name, setName] = useState('user');
   const [title, setTitle] = useState('Untilted');
   const [avatar, setAvatar] = useState('http://127.0.0.1:8000//media/books/395368427_696500319030425_4487648936682276622_n.jpg')
   const [posts, setPosts] = useState([]);
@@ -57,10 +58,10 @@ export default function RecipeReviewCard() {
         alert('Failed to view posted book information');
       }
     };
-  
+
     fetchData();
   }, []);
-  
+
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -69,7 +70,7 @@ export default function RecipeReviewCard() {
   return (
     <Container>
       {posts.map((post) => (
-        <Card key={post.id} sx={{ 
+        <Card key={post.id} sx={{
           mb: 2,  // sets margin-bottom to 16px (theme spacing * 2)
           mt: 2,  // sets margin-top to 16px (theme spacing * 2)
           mx: 'auto',  // sets margin-left and margin-right to 'auto' for centering
@@ -80,7 +81,7 @@ export default function RecipeReviewCard() {
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: 'red' }} aria-label="recipe" src={post.user.profile_img_url}>
-                
+
                 {/* {post.user.username[0].toUpperCase()} */}
               </Avatar>
             }
@@ -91,24 +92,30 @@ export default function RecipeReviewCard() {
             }
             title={"@" + post.user.username}
             subheader={<Typography variant="body2" color="textSecondary">
-                        {formatDistanceToNow(parseISO(post.created_at), { addSuffix: true })}
-                      </Typography>}
+              {formatDistanceToNow(parseISO(post.created_at), { addSuffix: true })}
+            </Typography>}
           />
-          <Box display="flex" justifyContent="center">
+          <Box display="flex" justifyContent="center" width='450px' height='300px'> 
             <CardMedia
               component="img"
-              sx={{ width: 300, height: 350, alignItems: 'center' }}
               image={post.book_img_url}
               alt={post.title}
             />
           </Box>
-          <CardContent>
-            <Typography variant="body2" color="text.primary" fontWeight={600} gutterBottom noWrap>
+          <CardContent sx={{display:'flex', flexDirection:'column'}}>
+            <Typography variant="body2" color="text.primary" height='60px'fontWeight={600} gutterBottom noWrap>
               {post.title}
             </Typography>
-            <Typography variant="body3" color="text.primary" fontWeight={300} gutterBottom noWrap>
-              {post.description}
-            </Typography>
+            <Box sx={{display:'flex', justifyContent:'end'}}>
+          <Checkbox
+            icon={<FavoriteBorder style={{ fontSize: '25px', color:'#50623A' }} />}
+            checkedIcon={<Favorite style={{ fontSize: '25px', color: '#50623A' }} />}
+            disableRipple
+          />
+            <IconButton aria-label="add to cart" sx={{ width: 45, height: 45 }} disableRipple>
+              <ShoppingCartIcon sx={{ fontSize: 25, color:'#50623A' }} />
+            </IconButton>
+          </Box>
           </CardContent>
         </Card>
       ))}

@@ -10,8 +10,8 @@ import ResponsiveAppBar from './components/header/header-frontend';
 function App() {
   return (
     <>
+      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', mx: 'auto', backgroundColor: '#edfff2'}}>
       {/* <ResponsiveAppBar/> */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', mx: 'auto' , backgroundColor: '#f5f5f5'}}>
         {/* <BasicMenu/> */}
         <Router>
 

@@ -5,7 +5,7 @@ import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/loginPage';
 import { RegisterPage } from './pages/registerPage';
 import ProfilePage from './pages/ProfilePage';
-import ShoppingCartPage from './pages/ShoppingCartPage';
+import CheckoutPage from './pages/CheckoutPage';
 import ExplorePage from './pages/ExplorePage';
 
 
@@ -17,8 +17,8 @@ const AppRouter = () => (
     <Route path="/login" element={<LoginPage />} />
     <Route path="/register" element={<RegisterPage />} />
     <Route path="/profile" element={<ProfilePage/>}/>
-    <Route path="/cart" element={<ShoppingCartPage/>}/>
     <Route path="/explore" element={<ExplorePage/>}/>
+    <Route path="/checkout" element={<CheckoutPage/>}/>
     {/* Add more routes here */}
   </Routes>
 );
