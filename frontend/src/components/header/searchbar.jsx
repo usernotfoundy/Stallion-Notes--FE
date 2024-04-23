@@ -5,31 +5,12 @@ import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
 
-export default function SearchBar() {
-  const textFieldProps = {
-    InputProps: {
-      style: {
-        fontFamily: 'Poppins',
-      },
-    },
-  };
-  
-  const [searchField, setSearchField] = React.useState('');
-
-  const handleSearchChange = (event) => {
-    setSearchField(event.target.value);
-  };
-
-  const handleSearchClick = () => {
-    console.log('Search Clicked');
-  };
-
-  const handleClearClick = () => {
-    setSearchField('');
-  };
+export default function SearchBar({ handleSearchChange, handleClearClick, handleSearchClick, searchField }) {
 
   return (
     <Paper
+      onSubmit={handleSearchClick}
+      component="form"
       sx={{
         p: '2px 4px',
         display: 'flex',
@@ -65,6 +46,8 @@ export default function SearchBar() {
         aria-label="clear"
         onClick={handleClearClick}
       >
+        {/* <InputBase value={searchField} onChange={handleSearchChange} /> */}
+        {/* <IconButton onClick={handleClearClick}> */}
         <ClearIcon />
       </IconButton>
     </Paper>

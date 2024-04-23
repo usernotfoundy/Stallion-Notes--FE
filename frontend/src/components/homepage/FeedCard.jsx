@@ -18,6 +18,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
 import { formatDistanceToNow, parseISO } from 'date-fns';
+import { useLocation } from 'react-router-dom';
 
 const VIEW_POSTS_API_URL = 'http://127.0.0.1:8000/view-posts/';
 const token = localStorage.getItem('authToken');
@@ -41,6 +42,8 @@ export default function RecipeReviewCard() {
   const [avatar, setAvatar] = useState('http://127.0.0.1:8000//media/books/395368427_696500319030425_4487648936682276622_n.jpg')
   const [posts, setPosts] = useState([]);
 
+  const location = useLocation();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,11 +58,14 @@ export default function RecipeReviewCard() {
         setPosts(response.data);  // Store all posts in state
       } catch (err) {
         console.error('Failed to view posted book information', err);
-        alert('Failed to view posted book information');
+        alert('Failed to view posted book information', error.message);
       }
     };
 
-    fetchData();
+    if (location.pathname === '/') {
+
+      fetchData();
+    }
   }, []);
 
 
@@ -95,27 +101,27 @@ export default function RecipeReviewCard() {
               {formatDistanceToNow(parseISO(post.created_at), { addSuffix: true })}
             </Typography>}
           />
-          <Box display="flex" justifyContent="center" width='450px' height='300px'> 
+          <Box display="flex" justifyContent="center" width='450px' height='300px'>
             <CardMedia
               component="img"
               image={post.book_img_url}
               alt={post.title}
             />
           </Box>
-          <CardContent sx={{display:'flex', flexDirection:'column'}}>
-            <Typography variant="body2" color="text.primary" height='60px'fontWeight={600} gutterBottom noWrap>
+          <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="body2" color="text.primary" height='60px' fontWeight={600} gutterBottom noWrap>
               {post.title}
             </Typography>
-            <Box sx={{display:'flex', justifyContent:'end'}}>
-          <Checkbox
-            icon={<FavoriteBorder style={{ fontSize: '25px', color:'#50623A' }} />}
-            checkedIcon={<Favorite style={{ fontSize: '25px', color: '#50623A' }} />}
-            disableRipple
-          />
-            <IconButton aria-label="add to cart" sx={{ width: 45, height: 45 }} disableRipple>
-              <ShoppingCartIcon sx={{ fontSize: 25, color:'#50623A' }} />
-            </IconButton>
-          </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+              <Checkbox
+                icon={<FavoriteBorder style={{ fontSize: '25px', color: '#50623A' }} />}
+                checkedIcon={<Favorite style={{ fontSize: '25px', color: '#50623A' }} />}
+                disableRipple
+              />
+              <IconButton aria-label="add to cart" sx={{ width: 45, height: 45 }} disableRipple>
+                <ShoppingCartIcon sx={{ fontSize: 25, color: '#50623A' }} />
+              </IconButton>
+            </Box>
           </CardContent>
         </Card>
       ))}

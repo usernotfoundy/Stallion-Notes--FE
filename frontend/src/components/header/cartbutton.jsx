@@ -1,12 +1,31 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import Cartitem from './cartitem';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import { Typography, Divider, Box } from '@mui/material';
+import axios from 'axios';
+
+// const token = localStorage.getItem('authToken');
+// const VIEW_CART_API_URL = 'http://127.0.0.1:8000/view-cart/'
+
 
 const CartButton = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // useEffect(() => {
+  //   try {
+  //     const response = axios.get(VIEW_CART_API_URL, {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  //     console.log("Viewed Cart data", response);
+  //   } catch (err) {
+  //     console.error('Failed to fetch cart', err);
+  //   }
+  // }, []);
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -21,8 +40,8 @@ const CartButton = () => {
 
   return (
     <div>
-      <Button onClick={toggleDrawer(true)} sx={{m:.9,fontSize:'25px'}} disableRipple>
-        <ShoppingBagOutlinedIcon sx={{fontSize:'30px', color:'#50623A'}} />
+      <Button onClick={toggleDrawer(true)} sx={{ m: .9, fontSize: '25px' }} disableRipple>
+        <ShoppingBagOutlinedIcon sx={{ fontSize: '30px', color: '#50623A' }} />
       </Button>
       <Drawer
         anchor="right"
@@ -31,9 +50,9 @@ const CartButton = () => {
         BackdropProps={{ invisible: true }}
         PaperProps={{
           sx: {
-            width:'419px',
-            borderRadius:3,
-            backgroundColor:'#F1F1F1',
+            width: '419px',
+            borderRadius: 3,
+            backgroundColor: '#F1F1F1',
             overflow: 'hidden',
           }
         }}
@@ -44,27 +63,27 @@ const CartButton = () => {
           onKeyDown={toggleDrawer(false)}
           style={{ overflow: 'hidden' }}
         >
-          <Typography sx={{fontSize:'24.3px', m:1.7, fontFamily:'Poppins', color:"#2D432E", fontWeight:'bold'}}>
+          <Typography sx={{ fontSize: '24.3px', m: 1.7, fontFamily: 'Poppins', color: "#2D432E", fontWeight: 'bold' }}>
             Cart
           </Typography>
-          <Divider/>
+          <Divider />
           <Box sx={{
-            width:'100%',
-            height:'535px'
+            width: '100%',
+            height: '535px'
           }}>
-            <Cartitem/>
+            <Cartitem />
           </Box>
-          <Divider/>
+          <Divider />
           <Box display='flex' justifyContent='space-between' marginTop='5px' ml='10px' mr='25px' >
-            <Typography sx={{color:"#2D432E"}} fontFamily='Poppins'>
+            <Typography sx={{ color: "#2D432E" }} fontFamily='Poppins'>
               Total:
             </Typography>
-            <Typography sx={{color:"#2D432E"}} fontFamily='Poppins'>
+            <Typography sx={{ color: "#2D432E" }} fontFamily='Poppins'>
               Php 100.00
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
-            <Button variant="contained" sx={{fontFamily:'Poppins', width:'300px', backgroundColor:'#2D432E'}} color='success'>
+            <Button variant="contained" sx={{ fontFamily: 'Poppins', width: '300px', backgroundColor: '#2D432E' }} color='success'>
               Checkout
             </Button>
           </Box>

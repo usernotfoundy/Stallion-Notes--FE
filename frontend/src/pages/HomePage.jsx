@@ -12,6 +12,8 @@ import FeedBar from "../components/homepage/FeedBar";
 import RightBar from "../components/homepage/RightBar";
 import FeedbackButton from "../components/feedbackbtn";
 
+
+
 const HomePage = () => {
   /*
      # Authentication APIs
@@ -41,37 +43,57 @@ const HomePage = () => {
       const VIEW_CART_API_URL = 'http://127.0.0.1:8000/view-cart/'
       const VIEW_POSTS_API_URL = 'http://127.0.0.1:8000/view-posts/';
 
+      #Rating Management APIs
+      path('rate-app/', RatingCreateView.as_view(), name='rate-app'),
+      path('view-ratings/', RatingAPIView.as_view(), name='view-ratings'),
+
+      #Purchase Management APIs
+      path('purchase-book/', PurchaseCreateAPIView.as_view(), name='purchase-book'),
+      path('view-purchase/', PurchaseListAPIView.as_view(), name='view-purchase'),
+      path('update-purchased-book/', UpdatePurchasedBookAPIView.as_view(), name='update-purchased-book'),
+
   */
+  const navigate = useNavigate('/');
+  useEffect(() => {
+    // Check if authToken is available in localStorage
+    const authToken = localStorage.getItem('authToken');
 
-    return (
-        <>
-            <ResponsiveAppBar /> 
+    // If authToken is not available, redirect to login page
+    if (!authToken) {
+      alert("You're not Login!");
+      navigate('/login'); // Replace '/login' with the actual login page route
+    }
+  }, []);
 
-            {/* <Typography variant="h5" sx={{ display: 'flex', justifyContent: 'center',alignContent:'center', my: 'auto', width: '375px', fontWeight: 'medium', color: '' }}>Home</Typography> */}
-            {/* <Button onClick={logout}> logout </Button> */}
-            <Grid container 
-              spacing={1}
-              direction="row"
-              justifyContent="space-between"
-            //   alignItems="center"
-              alignContent="center"
-              >
-              <Grid item>
-                <LeftBar/>
-              </Grid>
-              <Grid item>
-                <FeedBar/>
-              </Grid>
-              <Grid item
-              pr={2}
-              >
-                <RightBar/>
-              </Grid>
-            </Grid>
-            <FeedbackButton />
-            </Box>
-        </>
-    )
+  return (
+    <>
+      <ResponsiveAppBar />
+
+      {/* <Typography variant="h5" sx={{ display: 'flex', justifyContent: 'center',alignContent:'center', my: 'auto', width: '375px', fontWeight: 'medium', color: '' }}>Home</Typography> */}
+      {/* <Button onClick={logout}> logout </Button> */}
+      <Grid container
+        spacing={1}
+        direction="row"
+        justifyContent="space-between"
+        //   alignItems="center"
+        alignContent="center"
+
+      >
+        <Grid item>
+          <LeftBar />
+        </Grid>
+        <Grid item>
+          <FeedBar />
+        </Grid>
+        <Grid item
+          pr={2}
+        >
+          <RightBar />
+        </Grid>
+      </Grid>
+      <FeedbackButton />
+    </>
+  )
 }
 
 export default HomePage;

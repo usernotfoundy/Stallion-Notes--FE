@@ -1,13 +1,13 @@
-import { Box, Grid} from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import ExploreBoxItem from './explore-boxitem';
 
-const ExploreBar = () => {
-    return(
+const ExploreBar = ({ searched }) => {
+    return (
         <Box flex={4} p={1}>
-             <Grid container>
+            <Grid container>
                 {/* {[...Array(8)].map((_, index) => ( */}
                 <Grid >
-                    <ExploreBoxItem />
+                    <ExploreBoxItem searched={searched} />
                 </Grid>
                 {/* // ))} */}
             </Grid>

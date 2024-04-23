@@ -1,5 +1,5 @@
-/*eslint-disable  no-unused-vars*/
-import React, { useState } from 'react';
+/*eslint-disable*/
+import { useState, useEffect } from 'react';
 import './header.css';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,14 +13,16 @@ import ExploreButton from './explorebutton';
 import ForYouButton from './foryourbutton';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import CartBtn from './cartbutton';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const VIEW_BOOKS_API_URL = 'http://127.0.0.1:8000/view-books/'
 const UPLOAD_BOOKS_API_URL = 'http://127.0.0.1:8000/create-book/'
+const SEARCH_BOOKS_API_URL = 'http://127.0.0.1:8000/search-book/'
+const token = localStorage.getItem('authToken')
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({ searched, setSearched }) {
   const [openUpload, setOpenUpload] = useState(false);
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
@@ -28,8 +30,10 @@ function ResponsiveAppBar() {
   const [price, setPrice] = useState('');
   const [bookImg, setBookImg] = useState(null);
   const [error, setError] = useState('');
+  const [input, setInput] = useState([]);
 
   const navigate = useNavigate('/');
+  const location = useLocation();
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -95,10 +99,62 @@ function ResponsiveAppBar() {
     navigate('/');
   }
 
+  const [searchField, setSearchField] = useState('');
+
+  const fetchData = async (query) => {
+    try {
+      const url = query ? `${SEARCH_BOOKS_API_URL}query=${query}` : "http://127.0.0.1:8000/explore-books/";
+      const response = await axios.get(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log("Viewed Searched data", response.data);
+      setSearched(response.data);
+    } catch (err) {
+      console.error('Failed to view searched book information', err);
+      alert('Failed to view searched book information');
+    }
+  };
+  useEffect(() => {
+
+    if (location.pathname === '/explore') {
+      fetchData();
+      // return 0;
+    }
+
+  }, []);
+
+  const handleSearchChange = (event) => {
+    setSearchField(event.target.value);
+  };
+
+  const handleSearchClick = (e) => {
+    e.preventDefault();
+    navigate('/explore')
+    fetchData(searchField);
+
+  };
+
+  // const handleKeyPress = (event) => {
+  //   if (event.key === 'Enter') {
+  //     event.preventDefault(); // Prevent the default action to avoid a form submit which reloads the page
+  //     fetchData(searchField);
+  //   }
+  // };
+
+  const handleClearClick = () => {
+    setSearchField('');
+  };
+
+  // console.log('Search Field is ', searched);
+
+
 
   return (
     <>
-      <AppBar position="static" sx={{ background: 'white', boxShadow: 'none',}}>
+      <AppBar position="static" sx={{ background: 'white', boxShadow: 'none', }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -120,7 +176,14 @@ function ResponsiveAppBar() {
             <Box sx={{ flexGrow: 0, display: 'flex', justifyContent: 'center', mx: 'auto', marginRight: '0px' }}>
               <ForYouButton sx={{ margin: '5px', }} />
               <ExploreButton sx={{ margin: '5px', }} />
-              <SearchBar sx={{}} />
+              {/* <SearchBar sx={{}} value={input} onChange={(e)=> handleInput(e.target.value)}/> */}
+              <SearchBar sx={{}}
+                apiUrl={SEARCH_BOOKS_API_URL}
+                token={token}
+                handleSearchChange={handleSearchChange}
+                handleSearchClick={handleSearchClick}
+                handleClearClick={handleClearClick}
+                searchField={searchField} />
             </Box>
             <Box sx={{ flexGrow: 0, display: 'flex', justifyContent: 'right', mx: 'auto', marginRight: '0px' }}>
               <Button variant="contained" onClick={handleOpenUpload} color="success" fontFamily='Poppins' startIcon={<CloudUploadIcon />} sx={{ margin: '5px', fontSize: '13px', backgroundColor: '#50623A' }}>
@@ -131,7 +194,7 @@ function ResponsiveAppBar() {
                 <NotificationsNoneRoundedIcon sx={{ fontSize: '30px', color: '#50623A' }} />
               </Button>
               <Divider orientation='vertical' flexItem />
-              <CartBtn/>
+              <CartBtn />
               <Divider orientation="vertical" flexItem />
               <ProfileMenu />
             </Box>

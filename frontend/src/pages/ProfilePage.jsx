@@ -1,15 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import ResponsiveAppBar from '../components/header/header-frontend';
 import ProfileTab from '../components/profile/profiletabs';
 import TabPanel from '../components/profile/tabpanels';
 import { Box, Paper, Grid, Typography } from '@mui/material';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const ProfileContainer = styled(Box)({
   overflow: 'hidden',
 });
 
 const ProfilePage = () => {
+  const navigate = useNavigate('/');
+  useEffect(() => {
+    // Check if authToken is available in localStorage
+    const authToken = localStorage.getItem('authToken');
+
+    // If authToken is not available, redirect to login page
+    if (!authToken) {
+      alert("You're not Login!");
+      navigate('/login'); // Replace '/login' with the actual login page route
+    }
+  }, []);
+
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -27,7 +41,7 @@ const ProfilePage = () => {
   return (
     <>
       <ResponsiveAppBar position='sticky' />
-      <ProfileContainer sx={{ flexGrow: 1}}>
+      <ProfileContainer sx={{ flexGrow: 1 }}>
         <Grid
           container
           spacing={1}
@@ -36,7 +50,7 @@ const ProfilePage = () => {
           alignItems="start"
           position='sticky'
           ml='10px'
-          
+
         >
           <Grid item xs={2.6} mt='40px' mr='25px'>
             <Item>
@@ -45,7 +59,7 @@ const ProfilePage = () => {
           </Grid>
 
           <Grid item xs={8.8} position='sticky' mt='40px' >
-            <Typography sx={{fontSize:36, fontFamily:'Poppins',fontWeight:'bold', color:'#50623A'}}>Profile Settings</Typography>
+            <Typography sx={{ fontSize: 36, fontFamily: 'Poppins', fontWeight: 'bold', color: '#50623A' }}>Profile Settings</Typography>
             <Item>
               <TabPanel value={value} index={0}></TabPanel>
               <TabPanel value={value} index={2}></TabPanel>

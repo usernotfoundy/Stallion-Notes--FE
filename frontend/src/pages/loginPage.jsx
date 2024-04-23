@@ -53,7 +53,7 @@ const LoginPage = () => {
       Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     } catch (error) {
       console.error('Login error:', error);
-      setLoginError('Failed to login. Please check your username and password.');
+      setLoginError(`Failed to login. ${error.message}`);
     }
   };
 
