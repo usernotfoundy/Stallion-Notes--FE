@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/';
 const UPDATE_PROFILE_API_URL = 'http://127.0.0.1:8000/update-user/';
+const color = '#10439F';
 
 export default function AccountFor() {
     const [isEditButton, setIsEditButton] = useState(false);
@@ -55,6 +56,7 @@ export default function AccountFor() {
         formData.append('middle_name', editedProfile.middle_name);
         formData.append('phone_number', editedProfile.phone_number);
         formData.append('email', editedProfile.email);
+        // formData.append('wishlist', editedProfile.email);
         // formData.append('course', editedProfile.course);
         try {
             const res = await axios.patch(UPDATE_PROFILE_API_URL, formData, {
@@ -84,7 +86,7 @@ export default function AccountFor() {
             [name]: value,
         }));
     };
-    
+
     const textFieldProps = {
         InputProps: {
             style: {
@@ -175,16 +177,15 @@ export default function AccountFor() {
             {profile ? (
                 <>
                     <Grid sx={{ position: 'sticky', top: '0', zIndex: '1', backgroundColor: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px' }}>
-                        <Typography variant="h6" fontFamily="Poppins" sx={{ fontSize: '28px' }} gutterBottom>
-                        Account
+                        <Typography variant="h6" fontFamily="Poppins" sx={{ fontSize: '28px', color: `${color}` }} gutterBottom>
+                            Account
                         </Typography>
                         <Button
-                        variant="contained"
-                        color="success"
-                        onClick={isEditButton ? handleSaveClick : handleEditClick}
-                        sx={{ backgroundColor: '#50623A' }}
+                            variant="contained"
+                            onClick={isEditButton ? handleSaveClick : handleEditClick}
+                            sx={{ backgroundColor: `${color}` }}
                         >
-                        {isEditButton ? 'Save' : 'Edit'}
+                            {isEditButton ? 'Save' : 'Edit'}
                         </Button>
                     </Grid>
                     <Divider />
@@ -193,7 +194,7 @@ export default function AccountFor() {
                             variant='square'
                             alt=""
                             src={Profile_Url} // Assuming avatarUrl is a property in the profile data
-                            sx={{ width: 150, height: 150, mr: 1, border: '3px solid #50623A' }}
+                            sx={{ width: 150, height: 150, mr: 1, border: `3px solid ${color}` }}
                         />
                         <Box sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
                             <Button
@@ -201,8 +202,7 @@ export default function AccountFor() {
                                 role={undefined}
                                 variant="contained"
                                 tabIndex={-1}
-                                color='success'
-                                sx={{ backgroundColor: '#50623A' , display:'flex',justifyContent:'center' , alighItems:'center',width:'stretch'}}
+                                sx={{ backgroundColor: `${color}`, display: 'flex', justifyContent: 'center', alighItems: 'center', width: 'stretch' }}
                             >
                                 Select File
                                 <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
@@ -212,9 +212,8 @@ export default function AccountFor() {
                             </Typography>
                             <Button
                                 variant="contained"
-                                color="success"
                                 onClick={handleUpload}
-                                sx={{ backgroundColor: '#50623A', mt: '12px', mb: '8px',display:'flex',justifyContent:'center' , alighItems:'center',width:'stretch'}}
+                                sx={{ backgroundColor: `${color}`, mt: '12px', mb: '8px', display: 'flex', justifyContent: 'center', alighItems: 'center', width: 'stretch' }}
                             >
                                 Save
                             </Button>
@@ -230,7 +229,7 @@ export default function AccountFor() {
                     <Divider />
                     <Box ml='100px'>
                         <Grid container spacing={.5} sx={{ flexDirection: 'column' }} >
-                            <Typography mt='10px' sx={{ display: 'flex', fontSize: '20px', alignItems: 'start', fontFamily: 'Poppins', fontWeight: 'bold' }}>
+                            <Typography mt='10px' sx={{ color: `${color}`, display: 'flex', fontSize: '20px', alignItems: 'start', fontFamily: 'Poppins', fontWeight: 'bold' }}>
                                 Personal Information
                             </Typography>
                             <Box ml='80px'>
@@ -291,7 +290,7 @@ export default function AccountFor() {
                                     />
                                 </Grid> */}
                             </Box>
-                            <Typography mt='10px' sx={{ display: 'flex', fontSize: '20px', alignItems: 'start', fontFamily: 'Poppins', fontWeight: 'bold' }}>
+                            <Typography mt='10px' sx={{ color: `${color}`, display: 'flex', fontSize: '20px', alignItems: 'start', fontFamily: 'Poppins', fontWeight: 'bold' }}>
                                 Contact Information
                             </Typography>
                             <Box ml='80px'>
@@ -338,7 +337,7 @@ export default function AccountFor() {
                                     />
                                 </Grid>
                             </Box>
-                            <Typography mt='10px' sx={{ display: 'flex', fontSize: '20px', alignItems: 'start', fontFamily: 'Poppins', fontWeight: 'bold' }}>
+                            <Typography mt='10px' sx={{ color: `${color}`, display: 'flex', fontSize: '20px', alignItems: 'start', fontFamily: 'Poppins', fontWeight: 'bold' }}>
                                 Change Password
                             </Typography>
                             <Box ml='80px'>

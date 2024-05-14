@@ -6,12 +6,14 @@ import UserGreeting from '../components/userGreetings';
 import { useNavigate } from 'react-router-dom';
 // import { red } from '@mui/material/colors';
 import Axios from 'axios';
-import bg from '../imgs/bg.svg'
+// import bg from '../imgs/bg.svg'
+
 
 // Replace '' with your actual backend endpoint URL for login
 const LOGIN_API_URL = 'http://127.0.0.1:8000/login/';
 
 const LoginPage = () => {
+  const [logged, setLogged] = useState(false);
   // State hooks for username and password
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -47,6 +49,8 @@ const LoginPage = () => {
       localStorage.setItem('authToken', token);
 
       console.log('Login successful', response.data);
+      setLogged(true);
+
       navigate('/');
 
       // Step 4: Optionally, set up Axios defaults for subsequent requests
@@ -61,39 +65,10 @@ const LoginPage = () => {
   return (
     <>
       <Box
-        sx={{
-          backgroundColor: { xs: '#f5f5f5', sm: '#f5f5f5', md: '#f5f5f5', lg: `url(${bg})`, xl: `url(${bg})` },
-          backgroundImage: { xs: 'none', sm: 'none', md: 'note', lg: `url(${bg})`, xl: `url(${bg})` },
-          backgroundRepeat: 'no-repeat',
-          minHeight: '99.8vh',
-          mx: 0,
-          p: 0,
-          minWidth: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: { xs: 'center', sm: 'center', md: 'center', lg: 'space-between', xl: 'space-between' },
-        }}
-      >
-        <Typography variant="h5" color="initial"
-          sx={{
-            display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex', xl: 'flex' },
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexGrow: 1,
-            color: 'white',
-            mt: -10,
-            fontStyle: 'italic'
-          }}
-        >Stallion Notes: Gallop Through Pages, Trot Towards Knowledge.</Typography>
-        <Box sx={{
-          backgroundColor: '#f5f5f5',
-          minWidth: '85vh',
-          height: '99.8vh',
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+        <Box height='100vh' sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
 
-          <Box sx={{ p: 0, m: 'auto', bgcolor: '#ffffff', width: '500px', borderRadius: '20px', paddingBottom: '60px', overflow: 'clip', }}>
+          <Box sx={{ bgcolor: '#f1f1f1', boxShadow: 'initial', width: '525px', height: 'auto', borderRadius: '20px', paddingBottom: '40px', overflow: 'clip' }}>
 
             {/* Greeting component, potentially for personalized messages */}
             <Box sx={{ paddingTop: '40px' }}>
@@ -107,20 +82,20 @@ const LoginPage = () => {
 
             {/* Login form */}
             <Box component="form" sx={{ '& > :not(style)': { width: '423px' }, display: 'flex', flexDirection: 'column', alignItems: 'center' }} noValidate autoComplete="off" onSubmit={handleLogin}>
-              <TextField id="username" label="Username" variant="outlined" value={username} onChange={handleUsernameChange} sx={{ m: 1, '& label.Mui-focused': { color: '#50623A', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: '#50623A', }, }, }} />
-              <TextField id="password" label="Password" variant="outlined" type="password" autoComplete="current-password" value={password} onChange={handlePasswordChange} sx={{ m: 1, '& label.Mui-focused': { color: '#50623A', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: '#50623A', }, }, }} />
-              <Button type="submit" variant="contained" onClick={handleLogin} sx={{ bgcolor: 'orange', '&:hover': { backgroundColor: 'darkorange' }, width: '423px', height: '50px', m: 2 }}>Login</Button>
+              <TextField id="username" label="Username" variant="outlined" value={username} onChange={handleUsernameChange} sx={{ m: 1, '& label.Mui-focused': { color: '#C1C6E6', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: '#C1C6E6', }, }, }} />
+              <TextField id="password" label="Password" variant="outlined" type="password" autoComplete="current-password" value={password} onChange={handlePasswordChange} sx={{ m: 1, '& label.Mui-focused': { color: '#C1C6E6', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: '#C1C6E6', }, }, }} />
+              <Button type="submit" variant="contained" onClick={handleLogin} sx={{ pt: 2.5, pb: 2.5, pl: 3, bgcolor: '#10439F', '&:hover': { backgroundColor: '#1043ee' }, width: '423px', height: '50px', m: 2.5 }}>Login</Button>
             </Box>
 
             {/* Link to registration page */}
-            <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center", textAlign: 'center' }}>
+            <Box sx={{ pb: '32px', display: "flex", flexDirection: "row", justifyContent: "center", textAlign: 'center' }}>
               <Typography variant="subtitle1" color="GrayText">No account yet?</Typography>
-              <Link href="/register" sx={{ textDecoration: 'none', color: 'orange', '&:hover': { color: 'darkorange' }, my: 'auto', mx: 1, fontSize: '16px' }}> Register here</Link>
+              <Link href="/register" sx={{ textDecoration: 'none', color: '#10439F', '&:hover': { color: '#C1C6E6' }, my: 'auto', mx: 1, fontSize: '16px' }}> <Typography>Register here</Typography></Link>
             </Box>
           </Box>
 
         </Box>
-      </Box>
+      </Box >
     </>
   );
 };

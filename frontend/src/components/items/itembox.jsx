@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box, Chip, Button, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText, TextField, CircularProgress } from '@mui/material';
 
-const ItemBox = ({ img, id, title, description, price, onDelete, onEdit }) => {
+const ItemBox = ({ img, id, title, description, price, onDelete, onEdit, genre }) => {
   const StatusText = "Posted";
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -97,6 +97,9 @@ const ItemBox = ({ img, id, title, description, price, onDelete, onEdit }) => {
             </Typography>
             <Typography variant="subtitle2" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'left' }}>
               <strong>Description:</strong>{description}
+            </Typography>
+            <Typography variant="subtitle2" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'left' }}>
+              <strong>Genre:</strong>{genre}
             </Typography>
             <Typography variant="subtitle2" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'left' }}>
               <strong>Price:</strong>{price}

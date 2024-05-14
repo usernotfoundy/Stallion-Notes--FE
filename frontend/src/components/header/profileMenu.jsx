@@ -16,14 +16,14 @@ const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/';
 export default function BasicMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  
+
   const [img, setImg] = useState(null);
   const Profile_Url = img;
   const pic = async () => {
     // event.preventDefault();
     try {
       const token = localStorage.getItem('authToken');
-  
+
       const response = await Axios.get(VIEW_PROFILE_API_URL, {
         headers: {
           'Content-Type': 'application/json',
@@ -42,8 +42,8 @@ export default function BasicMenu() {
   useEffect(() => {
     pic();
   }, []);
-  
 
+  const color = '#10439F';
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -69,7 +69,7 @@ export default function BasicMenu() {
 
     try {
       // localStorage.removeItem('authToken');
-      navigate('/profile');
+      navigate('/profile/:tab');
     } catch (error) {
       console.log(error)
     }
@@ -85,9 +85,7 @@ export default function BasicMenu() {
         onClick={handleClick}
       >
         <Avatar alt="" src={Profile_Url} />
-        <ArrowDropDownRoundedIcon sx={{ color: '#50623A', width: '35px', height: '35px' }} />
-
-
+        <ArrowDropDownRoundedIcon sx={{ color: `${color}`, width: '35px', height: '35px' }} />
       </Button>
       <Menu
         id="basic-menu"
@@ -100,7 +98,7 @@ export default function BasicMenu() {
       >
         <MenuItem onClick={profile} fontFamily='Poppins'>Profile</MenuItem>
         <MenuItem onClick={handleClose} fontFamily='Poppins'>Settings</MenuItem>
-        <MenuItem onClick={logout}fontFamily='Poppins'>Logout</MenuItem>
+        <MenuItem onClick={logout} fontFamily='Poppins'>Logout</MenuItem>
         {/* <MenuItem onClick={pic}fontFamily='Poppins'>see console</MenuItem> */}
       </Menu>
     </div>

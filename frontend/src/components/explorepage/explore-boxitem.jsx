@@ -10,6 +10,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import ViewItemModal from './viewitemmodal';
 
 const EXPLORE_API_URL = 'http://127.0.0.1:8000/explore-books/';
 const token = localStorage.getItem('authToken');
@@ -27,13 +28,28 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function ExploreItemBox({ searched }) {
   const [explore, setExplore] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
   // const [searched, setSearched] = useState({ items: [] });
+
+  // const handleOpenModal = () => {
+  //   setOpenModal(true);
+  // };
+  const handleOpenModal = (item) => {
+    setSelectedItem(item); // Set the selected item
+    setOpenModal(true);
+    console.log('Selected Item:', item); // Log selected item for debugging
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   useEffect(() => {
     setExplore(searched);
   },);
-
-
+  // console.log(explore && explore.genre && explore.genre.id)
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -59,15 +75,17 @@ export default function ExploreItemBox({ searched }) {
 
   return (
     <Grid container sx={{ mb: 1, pl: 1 }} >
+      {/* {explore.length > 0 ? (
+        <> */}
       {explore.map((post) => (
-        <Item key={post.id} elevation={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: 0.3, backgroundColor: "#F5F5F5" }}>
+        <Item key={post.id} elevation={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: "#F5F5F5", m: 1 }}>
           <Box flexDirection='column'>
             <Box
               width='220px'
               height='115px'
               borderRadius='5px'
               style={{
-                backgroundImage: `url('${post.book_img}')`,
+                backgroundImage: post.book_img ? `url('${post.book_img}')` : " https://t3.ftcdn.net/jpg/04/60/01/36/360_F_460013622_6xF8uN6ubMvLx0tAJECBHfKPoNOR5cRa.jpg",
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 display: 'flex',
@@ -75,16 +93,21 @@ export default function ExploreItemBox({ searched }) {
                 alignItems: 'start',
               }}
               sx={{ mt: 1 }}
+              // onClick={handleOpenModal}
+              onClick={() => handleOpenModal(post)}
             >
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Box sx={{ width: '160px', height: '77px', p: '1px', display: 'flex', flexDirection: 'column', }}>
-                <Box marginTop={2}>
+              <Box sx={{ width: '160px', height: '90px', p: '1px', display: 'flex', flexDirection: 'start', }}>
+                <Box sx={{ mt: 2, pl: 2 }}>
                   <Typography variant="subtitle2" fontWeight='bold' sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', }}>
                     {post.title}
                   </Typography>
                   <Typography variant="subtitle2">
-                    {post.price}
+                    {post.price} || {post.genre && post.genre.genre_name}
+                  </Typography>
+                  <Typography variant="subtitle2" sx={{}}>
+                    {/* {post.genre && post.genre.genre_name} */}
                   </Typography>
                 </Box>
               </Box>
@@ -97,6 +120,11 @@ export default function ExploreItemBox({ searched }) {
           </Box>
         </Item>
       ))}
+      {/* </>) : (
+        <p>No results found</p>
+      )} */}
+      {/* <ViewItemModal open={openModal} handleClose={handleCloseModal} explore={explore} /> */}
+      <ViewItemModal open={openModal} handleClose={handleCloseModal} selectedItem={selectedItem} />
     </Grid>
   );
 }

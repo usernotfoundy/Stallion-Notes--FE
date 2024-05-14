@@ -14,18 +14,21 @@ const BookmanagementTab = () => {
   const { books, setBooks, loading, error } = useBooks(token);
 
   useEffect(() => {
-    try {
-      const response = axios.get(VIEW_BOOKS_API_URL, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log("Viewed book data", response);
-    } catch (err) {
-      console.error('Failed to fetch books', err);
-    }
-  }, [token]);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(VIEW_BOOKS_API_URL, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log("Viewed book data", response.data);
+      } catch (err) {
+        console.error('Failed to fetch books', err);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleDelete = async (id) => {
     try {
@@ -44,10 +47,11 @@ const BookmanagementTab = () => {
     const formData = new FormData();
     // Add the ID to the formData body
     formData.append('id', id);
+    // formData.append('wishlist', wishlist);
     Object.keys(updatedData).forEach(key => {
       formData.append(key, updatedData[key]);
     });
-  
+
     try {
       const response = await axios.patch(UPDATE_BOOK_API_URL, formData, {
         headers: {
@@ -55,7 +59,7 @@ const BookmanagementTab = () => {
           'Authorization': `Bearer ${token}`,
         },
       });
-  
+
       // Update local state to reflect changes
       setBooks(prevBooks => prevBooks.map(book => book.id === id ? { ...book, ...updatedData } : book));
       console.log('Book updated:', response.data);
@@ -63,7 +67,7 @@ const BookmanagementTab = () => {
       console.error('Error updating the book:', error);
     }
   };
-  
+
 
   if (loading) return <Typography>Loading<CircularProgress size={14} /></Typography>;
   if (error) return <Typography color="error"><CircularProgress size={14} />{error.message}</Typography>;

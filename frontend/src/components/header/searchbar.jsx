@@ -5,6 +5,8 @@ import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
 
+const color = '#10439F';
+
 export default function SearchBar({ handleSearchChange, handleClearClick, handleSearchClick, searchField }) {
 
   return (
@@ -16,15 +18,16 @@ export default function SearchBar({ handleSearchChange, handleClearClick, handle
         display: 'flex',
         alignItems: 'center',
         width: 400,
-        borderColor: '#50623A',
+        borderColor: `${color}`,
         borderWidth: '2px',
         borderStyle: 'solid',
         height: 35,
+        boxShadow: 'none'
       }}
     >
       <IconButton
         type="button"
-        sx={{ p: '10px', color: '#50623A' }}
+        sx={{ p: '10px', color: `${color}` }}
         aria-label="search"
         onClick={handleSearchClick}
       >
@@ -35,6 +38,7 @@ export default function SearchBar({ handleSearchChange, handleClearClick, handle
           ml: 1,
           flex: 1,
           fontFamily: 'Poppins',
+          color: `${color}`
         }}
         placeholder="Search Items"
         inputProps={{ 'aria-label': 'Search Items' }}
@@ -42,7 +46,9 @@ export default function SearchBar({ handleSearchChange, handleClearClick, handle
         onChange={handleSearchChange}
       />
       <IconButton
-        sx={{ p: '10px' }}
+        sx={{
+          p: '10px', color: `${color}`
+        }}
         aria-label="clear"
         onClick={handleClearClick}
       >

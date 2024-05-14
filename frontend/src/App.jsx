@@ -6,6 +6,7 @@ import AppRouter from './AppRouter';
 import { Box } from '@mui/material';
 import CButton from './components/CButton';
 import ResponsiveAppBar from './components/header/header-frontend';
+// import { CartProvider } from './components/shoppingcart/CartContext';
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
       {/* <ResponsiveAppBar/> */}
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', mx: 'auto', backgroundColor: '#f5f5f5' }}>
         {/* <BasicMenu/> */}
+        {/* <CartProvider> */}
+
         <Router>
 
           {/* routes goes  here */}
@@ -21,6 +24,7 @@ function App() {
           {/* test button that hides when loggedin */}
           {/* <CButton name="ems" /> */}
         </Router>
+        {/* </CartProvider> */}
 
       </Box>
 
