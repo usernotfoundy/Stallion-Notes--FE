@@ -124,12 +124,12 @@ export default function RecipeReviewCard() {
   };
   useEffect(() => {
 
-    if (location.pathname === '/home') {
-      setTimeout(() => {
-        // window.location.reload();
-        fetchData();
-      }, 1000);
-    }
+    // if (location.pathname === '/home') {
+    //   setTimeout(() => {
+    //     // window.location.reload();
+    //   }, 1000);
+    // }
+    fetchData();
   }, []);
 
 
