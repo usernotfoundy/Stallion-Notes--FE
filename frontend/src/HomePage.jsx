@@ -101,17 +101,17 @@
 
 /* eslint-disable no-unused-vars */
 import { Typography } from "@mui/material";
-import ResponsiveAppBar from '../components/header/header-frontend'
+import ResponsiveAppBar from './components/header/header-frontend'
 // import { useEffect } from "react";
 import axios from "axios";
 import { Button, Grid, } from "@mui/material";
 import { useEffect } from "react";
 import { Navigate, useNavigate } from 'react-router-dom';
-import BookForm from "./profile/BookForm";
-import LeftBar from "../components/homepage/LeftBar";
-import FeedBar from "../components/homepage/FeedBar";
-import RightBar from "../components/homepage/RightBar";
-import FeedbackButton from "../components/feedbackbtn";
+import BookForm from "./pages/profile/BookForm";
+import LeftBar from "./components/homepage/LeftBar";
+import FeedBar from "./components/homepage/FeedBar";
+import RightBar from "./components/homepage/RightBar";
+import FeedbackButton from "./components/feedbackbtn";
 
 
 
