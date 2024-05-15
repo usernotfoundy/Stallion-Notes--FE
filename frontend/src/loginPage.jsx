@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Box, Typography, Button, TextField, Link } from "@mui/material";
 // import DividerWithText from "../components/divider";
-import UserGreeting from '../components/userGreetings';
+import UserGreeting from './components/userGreetings';
 import { useNavigate } from 'react-router-dom';
 // import { red } from '@mui/material/colors';
 import Axios from 'axios';
