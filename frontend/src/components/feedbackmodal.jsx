@@ -57,15 +57,18 @@ import Modal from '@mui/material/Modal';
 import FBRatings from './fbratings';
 import { useState } from 'react';
 import axios from 'axios';
+import SuccessPrompt from './prompt/successprompt';
 
 const RATE_API_URL = 'https://stallionnotes.pythonanywhere.com/rate-app/';
 const token = localStorage.getItem('authToken');
 
 const FeedbackModal = ({ open, onClose }) => {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
   const [error, setError] = useState(null); // State to track errors
-
+  const [showSuccess, setShowSuccess] = useState(false)
+  const [msg, setMsg] = useState('')
+  
   const handleRatingSubmit = async () => {
     try {
       // Make a POST request to the API endpoint with the rating and comment
@@ -80,7 +83,13 @@ const FeedbackModal = ({ open, onClose }) => {
       );
       console.log('Rating submitted successfully:', response.data);
       setComment('');
+      setMsg('Thanks for your feedback!')
+      // \ngo-to profile->order tab and download your order slip')
       onClose(); // Close modal after successful submission
+        setShowSuccess(true)
+        setTimeout(() => {
+          setShowSuccess(false);  // Auto-hide success message after a delay
+        }, 5000);
 
     } catch (error) {
       console.error('Error submitting rating:', error);
@@ -97,6 +106,7 @@ const FeedbackModal = ({ open, onClose }) => {
 
 
   return (
+    <>
     <Modal
       open={open}
       onClose={onClose}
@@ -148,22 +158,24 @@ const FeedbackModal = ({ open, onClose }) => {
         </Box>
         {error && (
           <Alert
-            severity="error"
-            sx={{
-              position: 'absolute',
-              top: "-20%",
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 'fit-content',
-              zIndex: 9999,
-            }}
-            onClose={handleAlertClose}
+          severity="error"
+          sx={{
+            position: 'absolute',
+            top: "-20%",
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 'fit-content',
+            zIndex: 9999,
+          }}
+          onClose={handleAlertClose}
           >
             {error}
           </Alert>
         )}
       </Box>
     </Modal>
+        <SuccessPrompt open={showSuccess} handleClose={() => setShowSuccess(false)} msg={msg} />  
+        </>
   );
 };
 
