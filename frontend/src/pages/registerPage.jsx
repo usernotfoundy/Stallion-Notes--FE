@@ -519,7 +519,7 @@ export const RegisterPage = () => {
               </Button>
             )}
             {currentPage < 4 && (
-              <Button onClick={handleNext} variant="outlined" sx={{ mr: 2, pt: 2.5, pb: 2.5, pr: .9, width: '100px', borderRadius: 2, textAlign: 'center', textTransform: 'capitalize' }}>
+              <Button onClick={handleNext} variant="contained" sx={{ mr: 2, pt: 2.5, pb: 2.5, pr: .9, width: '100px', borderRadius: 2, textAlign: 'center', textTransform: 'capitalize' }}>
                 next <KeyboardArrowRightIcon />
               </Button>
             )}
