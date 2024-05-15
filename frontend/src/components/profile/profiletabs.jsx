@@ -156,20 +156,20 @@ function ProfileTab(props) {
           }
         />
         <Divider sx={{ mt: 1, mb: 1, borderBottom: .5, color: '#fff' }} />
-        <StyledTab
+        <StyledTab disabled
           label={
-            <ListItem disableGutters>
+            <ListItem disabled disableGutters>
               <LargeIconListItemIcon>
-                <HistoryIcon />
+                <HistoryIcon  />
               </LargeIconListItemIcon>
               <Typography variant="body1">Purchase History</Typography>
             </ListItem>
           }
         />
         <Divider sx={{ mt: 1, mb: 1, borderBottom: .5, color: '#fff' }} />
-        <StyledTab
+        <StyledTab disabled
           label={
-            <ListItem disable disableGutters>
+            <ListItem disabled disableGutters>
               <LargeIconListItemIcon>
                 <FavoriteIcon />
               </LargeIconListItemIcon>

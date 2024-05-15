@@ -58,16 +58,16 @@ const LeftBar = () => {
                     <Typography sx={{ fontSize: 20, fontWeight: 'bold', color: `${color}` }}>
                         Recent Donors
                     </Typography>
-                    <List sx={{ width: 360 }}>
+                    {/* <List sx={{ width: 360 }}>
                         {Donators.map((donator, index) => (
                             <ListItem key={index} sx={{ boxShadow: "0px 0px 5px 0px #ababab", borderRadius: 1, marginBottom: '10px', backgroundColor: 'background.paper' }}>
                                 <ListItemText primary={donator} />
                                 <ListItemText primary={Role[index]} sx={{ color: '#ababab', textAlign: 'right' }} />
                             </ListItem>
                         ))}
-                    </List>
+                    </List> */}
                 </Box>
-                <Divider flexItem sx={{ margin: '50px 0px' }} />
+                {/* <Divider flexItem sx={{ margin: '50px 0px' }} />
                 <Typography sx={{ fontSize: 18, fontWeight: 'bold', color: `${color}` }}>
                     Recent Viewed Products
                 </Typography>
@@ -80,7 +80,7 @@ const LeftBar = () => {
                         </ListItemAvatar>
                         <ListItemText primary="Untitled Book" />
                     </ListItem>
-                </List>
+                </List> */}
             </Box>
         </Box>
     );

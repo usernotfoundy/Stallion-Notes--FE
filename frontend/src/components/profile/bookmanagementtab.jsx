@@ -76,11 +76,11 @@ const BookmanagementTab = () => {
   return (
     <Box sx={{ maxHeight: '464px', overflow: 'auto' }}>
       <Grid sx={{ position: 'sticky', top: '0', zIndex: '1', backgroundColor: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h6" fontFamily="Poppins" sx={{ fontSize: '28px', color: 'GreyText' }} gutterBottom>
+        <Typography variant="h6" fontFamily="Poppins" sx={{ display: 'flex', justifyContent: 'start', fontSize: '28px', color: `${color}`  }} gutterBottom>
           Book Management
         </Typography>
-        <Divider sx={{ mt: 2, mb: 1 }} />
       </Grid>
+        <Divider sx={{ mt: 2, mb: 1 }} />
       {books.length > 0 ? (
         <>
           <Grid container spacing={0}>

@@ -104,7 +104,8 @@ export default function ExploreItemBox({ searched }) {
                     {post.title}
                   </Typography>
                   <Typography variant="subtitle2">
-                    {post.price} || {post.genre && post.genre.genre_name}
+                    {post.price} 
+                    {/* || {post.genre && post.genre.genre_name} */}
                   </Typography>
                   <Typography variant="subtitle2" sx={{}}>
                     {/* {post.genre && post.genre.genre_name} */}

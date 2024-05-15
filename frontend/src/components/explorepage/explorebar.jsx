@@ -12,7 +12,9 @@ const ExploreBar = ({ searched }) => {
         setLen(searched);
     })
     return (
-        <Box flex={4} p={1}>
+        <Box flex={4} p={1} 
+        sx={{mt:'5%', minHeight:'80vh'}}
+        >
             <Grid container>
                 {/* {[...Array(8)].map((_, index) => ( */}
                 <Grid >

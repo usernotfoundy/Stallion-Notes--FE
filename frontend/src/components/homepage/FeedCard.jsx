@@ -142,7 +142,7 @@ export default function RecipeReviewCard() {
   // if (loading) return <Typography>Loading<CircularProgress size={14} /></Typography>;
 
   return (
-    <Container>
+    <Container >
       {posts.map((post) => (
         <Card key={post.id}
           // color="neutral" variant="soft"

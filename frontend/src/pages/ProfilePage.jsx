@@ -80,7 +80,7 @@ const ProfilePage = () => {
           </Grid>
           {/* `${color}` */}
           <Grid item xs={8.8} position='sticky' mt='40px'>
-            <Typography sx={{ fontSize: 36, fontFamily: 'Poppins', fontWeight: 'bold', color: 'GrayText' }}>Profile Settings</Typography>
+            <Typography sx={{ fontSize: 36, fontFamily: 'Poppins', fontWeight: 'bold', color: '#10349f' }}>Profile Settings</Typography>
             <Item>
               <TabPanel value={value} index={0}></TabPanel>
               <TabPanel value={value} index={2}></TabPanel>
