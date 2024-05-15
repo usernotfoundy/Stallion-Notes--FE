@@ -176,7 +176,7 @@
 //     </>
 //   );
 // }
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Typography, Divider, Button } from '@mui/material';
 import CheckoutItem from './checkoutitem';
 import { useCart } from './CartContext';
@@ -187,11 +187,14 @@ import { useNavigate } from 'react-router-dom';
 
 const color = '#10439f';
 const authToken = localStorage.getItem('authToken')
+const PURCHASE_BOOK_API_URL = 'https://stallionnotes.pythonanywhere.com/purchased-book/'
+const UPDATE_PURCHASE_BOOK_API_URL = 'https://stallionnotes.pythonanywhere.com/update-purchased-book/'
 
 export default function CheckoutGrid() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFailed, setShowFailed] = useState(false);
   const [msg, setMsg] = useState('Opps! Something went wrong!');
+  const [id, setId] = useState()
 
   const navigate = useNavigate();
 
@@ -214,16 +217,18 @@ export default function CheckoutGrid() {
         seller: item.seller_id,
       };
       try {
-        const response = await axios.post('http://127.0.0.1:8000/purchase-book/', payload, {
+        const response = await axios.post('https://stallionnotes.pythonanywhere.com/purchase-book/', payload, {
           headers: {
             'Authorization': `Bearer ${authToken}`,
             'Content-Type': 'application/json',
           },
         });
         console.log('Pre-purchased item', item.id, response.data);
-        setMsg('Pre-order has been made!\ngo-to profile->order tab and download your order slip')
+        setMsg('Pre-order has been made!')
+        // \ngo-to profile->order tab and download your order slip')
         setShowSuccess(true)
         setTimeout(() => {
+          setId(item.id)
           setShowSuccess(false);  // Auto-hide success message after a delay
         }, 5000);
         setTimeout(() => {
@@ -233,8 +238,26 @@ export default function CheckoutGrid() {
       } catch (error) {
         console.error('Error purchasing item', item.id, error);
       }
+      UpdatePurchase(item.book_id)
     });
   };
+
+  const UpdatePurchase = async (id) => {
+    try {
+      const response = await axios.put(UPDATE_PURCHASE_BOOK_API_URL, { 'book_id': id }, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        }
+      })
+      console.log('book Updates: ', response.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+
+
 
   return (
     <>
@@ -298,7 +321,7 @@ export default function CheckoutGrid() {
 //         seller: item.seller_id,
 //       };
 //       try {
-//         const response = await axios.post('http://127.0.0.1:8000/purchase-book/', payload, {
+//         const response = await axios.post('https://stallionnotes.pythonanywhere.com/purchase-book/', payload, {
 //           headers: {
 //             'Authorization': `Bearer ${authToken}`,
 //             'Content-Type': 'application/json',

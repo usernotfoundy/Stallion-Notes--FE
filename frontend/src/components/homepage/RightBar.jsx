@@ -34,7 +34,7 @@ const LeftBar = () => {
         <Box flex={2} pl='15px' pt='40px'>
             <Box position='fixed'>
                 <Typography sx={{ fontSize: 20, fontWeight: 'bold', color: `${color}` }}>
-                    Announcement Here
+                    Announcement
                 </Typography>
             </Box>
         </Box>

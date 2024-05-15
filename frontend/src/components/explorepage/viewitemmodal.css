@@ -1,0 +1,22 @@
+.zoom {
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in;
+}
+
+.zoom img {
+    transition: transform 0.1s ease;
+    transform-origin: center center;
+}
+
+.zoom:hover img {
+    cursor: zoom-out;
+}
+
+.zoom img.zoomed {
+    transform: scale(2);
+}
+
+.zoom img.follow-cursor {
+    transform-origin: var(--mouse-x) var(--mouse-y);
+}

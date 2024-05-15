@@ -11,6 +11,8 @@ import Checkbox from '@mui/material/Checkbox';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
+import VisibilityIcon from '@mui/icons-material/Visibility'
+
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -23,8 +25,8 @@ import ViewItemModal from '../explorepage/viewitemmodal';
 
 // import { Divider } from '@mui/material'
 
-const VIEW_POSTS_API_URL = 'http://127.0.0.1:8000/view-posts/';
-const ADD_WISHLIST_API_URL = 'http://127.0.0.1:8000/add-wishlist/'
+const VIEW_POSTS_API_URL = 'https://stallionnotes.pythonanywhere.com/view-posts/';
+const ADD_WISHLIST_API_URL = 'https://stallionnotes.pythonanywhere.com/add-wishlist/'
 const token = localStorage.getItem('authToken');
 const color = '#10349F';
 
@@ -193,12 +195,7 @@ export default function RecipeReviewCard() {
               {post.description}
             </Typography>
             <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-              {/* <Checkbox
-                // onClick={handleWishlist}
-                icon={<FavoriteBorder style={{ fontSize: '25px', color: '#10439F' }} />}
-                checkedIcon={<Favorite style={{ fontSize: '25px', color: '#10439F' }} />}
-                disableRipple
-              /> */}
+
               <Checkbox
                 onClick={() => handleWishlist(post, post.isLiked)} // Assume isLiked is a boolean indicating if the user has liked the post
                 icon={<FavoriteBorder style={{ fontSize: '25px', color: '#10439F' }} />}
@@ -208,7 +205,7 @@ export default function RecipeReviewCard() {
               />
               <IconButton aria-label="add to cart" sx={{ width: 45, height: 45, mx: 3, }} disableRipple>
                 {/* <ShoppingCartIcon sx={{ fontSize: 25, color: '#50623A' }} /> */}
-                <Button variant='contained' onClick={() => handleOpenModal(post)} sx={{ bgcolor: '#10439F', py: 1, px: 5 }}>View</Button>
+                <Button variant='contained' onClick={() => handleOpenModal(post)} sx={{ bgcolor: '#10439F', py: 1, px: 6 }} startIcon={<VisibilityIcon />}>View</Button>
               </IconButton>
             </Box>
           </CardContent>

@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 // const Profile_Url = "http://localhost:8000/static/images/profile/emman_prfl.jpg";
-const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/';
+const VIEW_PROFILE_API_URL = 'https://stallionnotes.pythonanywhere.com/view-profile/';
 
 
 export default function BasicMenu() {

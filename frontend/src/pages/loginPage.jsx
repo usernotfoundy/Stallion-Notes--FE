@@ -10,7 +10,7 @@ import Axios from 'axios';
 
 
 // Replace '' with your actual backend endpoint URL for login
-const LOGIN_API_URL = 'http://127.0.0.1:8000/login/';
+const LOGIN_API_URL = 'https://stallionnotes.pythonanywhere.com/login/';
 
 const LoginPage = () => {
   const [logged, setLogged] = useState(false);
@@ -57,7 +57,7 @@ const LoginPage = () => {
       Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     } catch (error) {
       console.error('Login error:', error);
-      setLoginError(`Failed to login. ${error.message}`);
+      setLoginError(`Failed to login. ${error.response.data.non_field_errors}`);
     }
   };
 
@@ -82,15 +82,15 @@ const LoginPage = () => {
 
             {/* Login form */}
             <Box component="form" sx={{ '& > :not(style)': { width: '423px' }, display: 'flex', flexDirection: 'column', alignItems: 'center' }} noValidate autoComplete="off" onSubmit={handleLogin}>
-              <TextField id="username" label="Username" variant="outlined" value={username} onChange={handleUsernameChange} sx={{ m: 1, '& label.Mui-focused': { color: '#C1C6E6', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: '#C1C6E6', }, }, }} />
-              <TextField id="password" label="Password" variant="outlined" type="password" autoComplete="current-password" value={password} onChange={handlePasswordChange} sx={{ m: 1, '& label.Mui-focused': { color: '#C1C6E6', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: '#C1C6E6', }, }, }} />
-              <Button type="submit" variant="contained" onClick={handleLogin} sx={{ pt: 2.5, pb: 2.5, pl: 3, bgcolor: '#10439F', '&:hover': { backgroundColor: '#1043ee' }, width: '423px', height: '50px', m: 2.5 }}>Login</Button>
+              <TextField id="username" label="Username" variant="outlined" value={username} onChange={handleUsernameChange} sx={{ m: 1, }} />
+              <TextField id="password" label="Password" variant="outlined" type="password" autoComplete="current-password" value={password} onChange={handlePasswordChange} sx={{ m: 1, }} />
+              <Button type="submit" variant="contained" onClick={handleLogin} sx={{ pt: 2.5, pb: 2.5, pl: 3, width: '423px', height: '50px', m: 2.5 }}>Login</Button>
             </Box>
 
             {/* Link to registration page */}
             <Box sx={{ pb: '32px', display: "flex", flexDirection: "row", justifyContent: "center", textAlign: 'center' }}>
               <Typography variant="subtitle1" color="GrayText">No account yet?</Typography>
-              <Link href="/register" sx={{ textDecoration: 'none', color: '#10439F', '&:hover': { color: '#C1C6E6' }, my: 'auto', mx: 1, fontSize: '16px' }}> <Typography>Register here</Typography></Link>
+              <Link href="/register" sx={{ textDecoration: 'none', my: 'auto', mx: 1, fontSize: '16px' }}>Register here</Link>
             </Box>
           </Box>
 

@@ -212,8 +212,9 @@ import axios from 'axios';
 import SuccessPrompt from '../prompt/successprompt';  // Ensure correct path
 import ErrorPrompt from '../prompt/errorprompt';
 import FailedPrompt from '../prompt/failedprompt';
+import './viewitemmodal.css';
 
-const ADD_CART_API_URL = 'http://127.0.0.1:8000/add-cart/';
+const ADD_CART_API_URL = 'https://stallionnotes.pythonanywhere.com/add-cart/';
 const token = localStorage.getItem('authToken');
 
 export default function ViewItemModal({ open, handleClose, selectedItem }) {
@@ -221,6 +222,23 @@ export default function ViewItemModal({ open, handleClose, selectedItem }) {
     const [showFailed, setShowFailed] = useState(false);
     const [showError, setShowError] = useState(false);
     const [msg, setMsg] = useState('Opps! Something went wrong!');
+    const [isZoomed, setIsZoomed] = useState(false);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+    const handleMouseEnter = () => {
+        setIsZoomed(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsZoomed(false);
+    };
+
+    const handleMouseMove = (e) => {
+        const { left, top, width, height } = e.target.getBoundingClientRect();
+        const x = ((e.clientX - left) / width) * 100 + '%';
+        const y = ((e.clientY - top) / height) * 100 + '%';
+        setMousePosition({ x, y });
+    };
 
     if (!selectedItem) {
         return null;
@@ -270,17 +288,36 @@ export default function ViewItemModal({ open, handleClose, selectedItem }) {
             <Modal open={open} onClose={() => { handleClose(); setShowSuccess(false); }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 900, height: 500, bgcolor: 'background.paper', boxShadow: 0, p: 4, borderRadius: 2 }}>
                     <Box
-                        width='400px'
-                        height='auto'
-                        borderRadius='3px'
-                        border='1px solid #50623A'
+                        width="400px"
+                        height="500px"
+                        borderRadius="3px"
+                        border="3px solid #50623A"
+                        className="zoom"
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        onMouseMove={handleMouseMove}
                         style={{
+                            '--mouse-x': mousePosition.x,
+                            '--mouse-y': mousePosition.y,
+                        }}
+                    ><img
+                            src={book_img || book_img_url ? `${book_img || book_img_url}` : 'https://t3.ftcdn.net/jpg/04/60/01/36/360_F_460013622_6xF8uN6ubMvLx0tAJECBHfKPoNOR5cRa.jpg'}
+                            // alt="Harry Potter Book Cover"
+                            className={`${isZoomed ? 'zoomed follow-cursor' : ''}`}
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'center',
+                            }}
+                        /></Box>
+                    {/* style={{
                             backgroundImage: book_img || book_img_url ? `url('${book_img || book_img_url}')` : 'url("https://t3.ftcdn.net/jpg/04/60/01/36/360_F_460013622_6xF8uN6ubMvLx0tAJECBHfKPoNOR5cRa.jpg")',
                             backgroundSize: 'contain',
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'center'
-                        }}
-                    />
+                        }} */}
                     <Box ml={1}>
                         <Box p={2} sx={{ flex: 1 }}>
                             <Typography variant='h5' fontWeight='bold' color='#50623A' fontFamily='Poppins'>
@@ -313,7 +350,7 @@ export default function ViewItemModal({ open, handleClose, selectedItem }) {
                             <Typography fontWeight='bold' fontSize={25} fontFamily='Poppins' color='#50623A'>
                                 Php {price}
                             </Typography>
-                            <IconButton aria-label="add to cart" sx={{ width: 45, height: 45 }} onClick={() => addToCart(selectedItem.id)} disableRipple>
+                            <IconButton aria-label="add to cart" sx={{ width: 45, height: 45, '&:hover ': { scale: '95%' } }} onClick={() => addToCart(selectedItem.id)} disableRipple>
                                 <ShoppingCartIcon sx={{ fontSize: 40, color: '#50623A' }} />
                             </IconButton>
                             {/* <button onClick={handleError}>Trigger Action</button> */}
@@ -322,6 +359,7 @@ export default function ViewItemModal({ open, handleClose, selectedItem }) {
                         </Box>
                     </Box>
                 </Box>
+
             </Modal>
             <SuccessPrompt open={showSuccess} handleClose={() => setShowSuccess(false)} msg={msg} />
             {showFailed && <FailedPrompt open={showFailed} handleClose={() => setShowFailed(false)} />}

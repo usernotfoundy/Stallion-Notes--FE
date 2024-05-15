@@ -11,9 +11,10 @@ const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    height: 100,
+    height: 70,
     lineHeight: '60px',
-    width: 600,
+    width: 'fit',
+    paddingInline: '10px',
     overflow: 'hidden',
     animation: 'fadeIn 0.2s ease-in',
     '@keyframes fadeIn': {
@@ -25,26 +26,17 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function SuccessPrompt({ open, handleClose, msg }) {
     if (!open) return null;
-    // const [open, setOpen] = useState(true);
-
-    // const handleClose = () => {
-    //     setOpen(false);
-    // };
 
     return (
-        <Grid container style={{ position: 'fixed', top: '10%', left: '100%', transform: 'translate(-40%, 0%)', zIndex: 1000 }}>
-            <Item elevation={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: "white" }}>
-                <Box width='100px' height='100px' bgcolor='white' display='flex' justifyContent={'center'} alignItems={'center'} sx={{ position: 'absolute', top: '0px', left: '0px' }}>
+        <Grid container style={{ position: 'fixed', top: '10%', left: '115%', transform: 'translate(-40%, 0%)', zIndex: 1000 }}>
+            <Item elevation={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+                <Box sx={{ borderColor: '#68d2c3', borderStyle: 'dashed', borderRadius: '3px', borderWidth: '2px', width: '285px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <CheckCircleIcon color='success' sx={{ fontSize: '40px' }} />
-                </Box>
-                <Box display='flex' flexDirection='row' position="relative">
-                    <Box sx={{ pl: 12, m: 3, borderColor: `${color}`, borderStyle: 'dashed', borderRadius: '3px', borderWidth: '2px', height: '80px', width: '485px', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', position: 'relative' }}>
-                        <div style={{ display: 'flex', alignItems: 'start', flexDirection: 'column' }}>
-                            <Typography sx={{ color: `${color}`, fontSize: '18px', fontWeight: '600' }}>Woo Hoo !</Typography>
-                            <Typography sx={{ width: '400px', maxRows: 4, whiteSpace: 'pre-line' }} >{msg}</Typography>
-                            <Button variant="contained" size='small' onClick={handleClose} sx={{ position: 'absolute', bottom: '9px', right: '10px', textTransform: 'capitalize' }}>Ok</Button>
-                        </div>
-                    </Box>
+                    <div style={{ display: 'flex', alignItems: 'start', flexDirection: 'column', justifyContent: 'center' }}>
+                        <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Woo Hoo !</Typography>
+                        <Typography sx={{ fontSize: '12px' }}>{msg}</Typography>
+                        {/* <Button variant="contained" size='small' onClick={handleClose} sx={{ position: 'absolute', bottom: '9px', right: '10px', textTransform: 'capitalize' }}>Ok</Button> */}
+                    </div>
                 </Box>
             </Item>
 
@@ -52,6 +44,7 @@ export default function SuccessPrompt({ open, handleClose, msg }) {
     );
 }
 
+{/* <Button variant="contained" size='small' onClick={handleClose} sx={{ position: 'absolute', bottom: '9px', right: '10px', textTransform: 'capitalize' }}>Ok</Button> */ }
 
 // import React from 'react';
 // import { Grid, Typography, Box, Button, Paper } from '@mui/material';

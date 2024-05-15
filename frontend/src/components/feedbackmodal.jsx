@@ -58,7 +58,7 @@ import FBRatings from './fbratings';
 import { useState } from 'react';
 import axios from 'axios';
 
-const RATE_API_URL = 'http://127.0.0.1:8000/rate-app/';
+const RATE_API_URL = 'https://stallionnotes.pythonanywhere.com/rate-app/';
 const token = localStorage.getItem('authToken');
 
 const FeedbackModal = ({ open, onClose }) => {

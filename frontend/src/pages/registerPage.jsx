@@ -164,9 +164,9 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-const REGISTER_API_URL = 'http://127.0.0.1:8000/register/';
-const COLLEGES_API_URL = 'http://127.0.0.1:8000/view-college/';
-const COURSES_API_URL = 'http://127.0.0.1:8000/view-course/';
+const REGISTER_API_URL = 'https://stallionnotes.pythonanywhere.com/register/';
+const COLLEGES_API_URL = 'https://stallionnotes.pythonanywhere.com/view-college/';
+const COURSES_API_URL = 'https://stallionnotes.pythonanywhere.com/view-course/';
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -234,14 +234,19 @@ export const RegisterPage = () => {
     let hasError = false;
     switch (currentPage) {
       case 1: // Validate account details
+        // Validate account details
         if (!username || !password || !confirmPassword) {
           setErrorMessage("Please fill all fields correctly.");
           hasError = true;
         } else if (password !== confirmPassword) {
-          setErrorMessage("Password don't match.");
+          setErrorMessage("Passwords don't match.");
+          hasError = true;
+        } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
+          setErrorMessage("Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character.");
           hasError = true;
         }
         break;
+
       case 2: // Validate personal information
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const phoneRegex = /^\d+$/; // Allows only digits, any length
@@ -317,11 +322,14 @@ export const RegisterPage = () => {
       if (error.response && error.response.data && error.response.data.username) {
         setErrorMessage(`Failed to register: ${error.response.data.username[0]}`);
       }
-      if (error.response && error.response.data && error.response.data.course) {
+      else if (error.response && error.response.data && error.response.data.course) {
         setErrorMessage(`Failed to register: 'College and Course' ${error.response.data.course[0]}`);
       }
+      else if (error.config && error.response.data && error.response.username) {
+        setErrorMessage(`Failed to register: ${error.response.data.username[0]}`);
+      }
       else {
-        setErrorMessage('Failed to register. Please try again later.');
+        setErrorMessage('Failed to register. Please try again later.',);
         // console.error('Registration error:', error);
       }
     }
@@ -345,9 +353,9 @@ export const RegisterPage = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', height: 'auto' }} >
             <Typography variant="h6" sx={{ color: "#002f1b", fontFamily: 'Poppins' }}>Account Details</Typography>
             {/* <Divider sx={{mb:1}}/>             */}
-            <TextField sx={{ mb: 2, mt: 1, '& label.Mui-focused': { color: 'orange', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: 'orange', }, }, }} id="username" label="Username" variant="outlined" value={username} onChange={e => setUsername(e.target.value)} />
-            <TextField sx={{ mb: 2, '& label.Mui-focused': { color: 'orange', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: 'orange', }, }, }} label="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
-            <TextField sx={{ mb: 2, '& label.Mui-focused': { color: 'orange', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: 'orange', }, }, }} label="Confirm Password" type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+            <TextField sx={{ mb: 2, mt: 1, }} id="username" label="Username" variant="outlined" value={username} onChange={e => setUsername(e.target.value)} />
+            <TextField sx={{ mb: 2, }} label="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
+            <TextField sx={{ mb: 2, }} label="Confirm Password" type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
           </Box>
         );
       case 2:
@@ -355,9 +363,9 @@ export const RegisterPage = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', height: 'auto' }}>
             <Typography variant="h6" sx={{ color: "#002f1b", fontFamily: 'Poppins' }}>Personal Information</Typography>
             {/* <Divider sx={{mb:1}}/> */}
-            <TextField sx={{ mb: 2, mt: 1, '& label.Mui-focused': { color: 'orange', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: 'orange', }, }, }} label="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} />
-            <TextField sx={{ mb: 2, '& label.Mui-focused': { color: 'orange', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: 'orange', }, }, }} label="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} />
-            <TextField sx={{ mb: 2, '& label.Mui-focused': { color: 'orange', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: 'orange', }, }, }} label="Middle Name" value={middleName} onChange={e => setMiddleName(e.target.value)} />
+            <TextField sx={{ mb: 2, mt: 1, }} label="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} />
+            <TextField sx={{ mb: 2, }} label="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} />
+            <TextField sx={{ mb: 2, }} label="Middle Name" value={middleName} onChange={e => setMiddleName(e.target.value)} />
             {/* <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', mt: 1, mb: 2 }}>
               <TextField
                 sx={{ width: 200, '& label.Mui-focused': { color: 'orange', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: 'orange', }, }, }}
@@ -384,8 +392,8 @@ export const RegisterPage = () => {
                 }}
               />
             </Box> */}
-            <TextField sx={{ mb: 2, '& label.Mui-focused': { color: 'orange', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: 'orange', }, }, }} label="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} />
-            <TextField sx={{ '& label.Mui-focused': { color: 'orange', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: 'orange', }, }, }} label="Phone Number" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
+            <TextField sx={{ mb: 2, }} label="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} />
+            <TextField sx={{}} label="Phone Number" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
           </Box>
         );
       case 3:
@@ -408,8 +416,8 @@ export const RegisterPage = () => {
                     width: 130,
                     fontSize: 10,
                     borderColor: '#002f1b',
-                    color: selectedGenres.includes(genre) ? '#f1f1f1' : '#002f1b',
-                    backgroundColor: selectedGenres.includes(genre) ? '#698152' : '#f1f1f1',
+                    // color: selectedGenres.includes(genre) ? '#f1f1f1' : '#002f1b',
+                    // backgroundColor: selectedGenres.includes(genre) ? '#698152' : '#f1f1f1',
                   }}
                 >
                   {genre}
@@ -435,9 +443,9 @@ export const RegisterPage = () => {
                 // '&:hover .MuiOutlinedInput-notchedOutline': {
                 //   borderColor: 'orange', // Correctly sets hover border color to orange
                 // },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange', // Correctly sets focus border color to orange
-                },
+                // '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                //   borderColor: 'orange', // Correctly sets focus border color to orange
+                // },
                 // }
               }}
 
@@ -455,9 +463,9 @@ export const RegisterPage = () => {
               onChange={(e) => setCourse(e.target.value)}
               sx={{
                 mb: 2, mt: 1,
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'orange', // Correctly sets focus border color to orange
-                },
+                // '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                //   borderColor: 'orange', // Correctly sets focus border color to orange
+                // },
               }}
             >
               <MenuItem value="">None</MenuItem>
@@ -479,19 +487,19 @@ export const RegisterPage = () => {
   return (
     <Box height='100vh' sx={{ display: 'flex', justifyContent: 'start', alignItems: 'center', flexDirection: 'column', pt: '20px' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }} >
-        <Link href="#" sx={{ textDecoration: 'none', color: currentPage === 1 ? 'orange' : 'inherit', cursor: 'pointer' }}>
+        <Link href="#" sx={{ textDecoration: 'none', color: currentPage === 1 ? 'default' : 'inherit', cursor: 'pointer' }}>
           Account Details
         </Link>
         <NavigateNextIcon sx={{ mx: 1 }} />
-        <Link href="#" sx={{ textDecoration: 'none', color: currentPage === 2 ? 'orange' : 'inherit', cursor: 'pointer' }}>
+        <Link href="#" sx={{ textDecoration: 'none', color: currentPage === 2 ? 'default' : 'inherit', cursor: 'pointer' }}>
           Personal Information
         </Link>
         <NavigateNextIcon sx={{ mx: 1 }} />
-        <Link href="#" sx={{ textDecoration: 'none', color: currentPage === 3 ? 'orange' : 'inherit', cursor: 'pointer' }}>
+        <Link href="#" sx={{ textDecoration: 'none', color: currentPage === 3 ? 'default' : 'inherit', cursor: 'pointer' }}>
           Genre Selection
         </Link>
         <NavigateNextIcon sx={{ mx: 1 }} />
-        <Link href="#" sx={{ textDecoration: 'none', color: currentPage === 4 ? 'orange' : 'inherit', cursor: 'pointer' }}>
+        <Link href="#" sx={{ textDecoration: 'none', color: currentPage === 4 ? 'default' : 'inherit', cursor: 'pointer' }}>
           Student Information
         </Link>
       </Box>
@@ -501,22 +509,22 @@ export const RegisterPage = () => {
         </Box>
         <Box component="form" sx={{ '& > :not(style)': { width: '423px', }, height: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', }} noValidate autoComplete="off">
           {errorMessage && (
-            <Typography color="error" sx={{ textAlign: 'center' }}>{errorMessage}</Typography>
+            <Typography color="error" sx={{ textAlign: 'center', fontSize: '14px' }}>{errorMessage}</Typography>
           )}
           {renderPage()}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2, mt: 2, width: 525, height: 35 }}>
             {currentPage > 1 && (
-              <Button onClick={handleBack} variant="outlined" sx={{ mr: 2, pr: 3.1, pt: 2.5, pb: 2.5, color: 'orange', borderColor: 'orange', bgcolor: 'white', '&:hover': { backgroundColor: '#f1f1f1', borderColor: 'orange' }, width: '100px', borderRadius: 2, textAlign: 'center', textTransform: 'capitalize' }}>
+              <Button onClick={handleBack} variant="outlined" sx={{ mr: 2, pr: 3.1, pt: 2.5, pb: 2.5, width: '100px', borderRadius: 2, textAlign: 'center', textTransform: 'capitalize' }}>
                 <KeyboardArrowLeftIcon /> back
               </Button>
             )}
             {currentPage < 4 && (
-              <Button onClick={handleNext} variant="outlined" sx={{ mr: 2, pt: 2.5, pb: 2.5, pr: .9, color: 'white', borderColor: 'white', bgcolor: 'orange', '&:hover': { backgroundColor: 'darkorange', borderColor: 'orange', color: 'white' }, width: '100px', borderRadius: 2, textAlign: 'center', textTransform: 'capitalize' }}>
+              <Button onClick={handleNext} variant="outlined" sx={{ mr: 2, pt: 2.5, pb: 2.5, pr: .9, width: '100px', borderRadius: 2, textAlign: 'center', textTransform: 'capitalize' }}>
                 next <KeyboardArrowRightIcon />
               </Button>
             )}
             {currentPage === 4 && (
-              <Button onClick={handleSubmit} variant="contained" sx={{ mr: 2, pt: 2.5, pb: 2.5, pl: 3, bgcolor: 'orange', '&:hover': { backgroundColor: 'darkorange' }, width: '130px', textAlign: 'center', borderRadius: 2, textTransform: 'capitalize' }}>
+              <Button onClick={handleSubmit} variant="contained" sx={{ mr: 2, pt: 2.5, pb: 2.5, pl: 3, width: '130px', textAlign: 'center', borderRadius: 2, textTransform: 'capitalize' }}>
                 register <ArrowForwardIcon sx={{ fontSize: 20 }} />
               </Button>
             )}
@@ -524,7 +532,7 @@ export const RegisterPage = () => {
         </Box>
         <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center", textAlign: 'center' }}>
           <Typography variant="subtitle1" color="GrayText">Already a user?</Typography>
-          <Link href="/login" sx={{ textDecoration: 'none', color: 'orange', '&:hover': { color: 'darkorange' }, my: 'auto', mx: 1, fontSize: '16px' }}>Login</Link>
+          <Link href="/login" sx={{ textDecoration: 'none', my: 'auto', mx: 1, fontSize: '16px' }}>Login</Link>
         </Box>
       </Box>
     </Box >

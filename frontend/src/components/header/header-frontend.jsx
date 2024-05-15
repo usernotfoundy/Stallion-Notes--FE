@@ -17,9 +17,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import CartBtn from './cartbutton';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-const VIEW_BOOKS_API_URL = 'http://127.0.0.1:8000/view-books/'
-const UPLOAD_BOOKS_API_URL = 'http://127.0.0.1:8000/create-book/'
-const SEARCH_BOOKS_API_URL = 'http://127.0.0.1:8000/search-book/'
+const VIEW_BOOKS_API_URL = 'https://stallionnotes.pythonanywhere.com/view-books/'
+const UPLOAD_BOOKS_API_URL = 'https://stallionnotes.pythonanywhere.com/create-book/'
+const SEARCH_BOOKS_API_URL = 'https://stallionnotes.pythonanywhere.com/search-book/'
 const token = localStorage.getItem('authToken');
 const color = '#10439F';
 const genres = [
@@ -66,7 +66,7 @@ function ResponsiveAppBar({ searched, setSearched }) {
   useEffect(() => {
     const fetchGenreOptions = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/view-genre/');
+        const response = await axios.get('https://stallionnotes.pythonanywhere.com/view-genre/');
         setGenreOptions(response.data); // Set genre options from API response
         // console.log('genre data: ', response.data)
       } catch (error) {
@@ -141,7 +141,7 @@ function ResponsiveAppBar({ searched, setSearched }) {
 
   const fetchData = async (query) => {
     try {
-      const url = query ? `${SEARCH_BOOKS_API_URL}query=${query}` : "http://127.0.0.1:8000/explore-books/";
+      const url = query ? `${SEARCH_BOOKS_API_URL}query=${query}` : "https://stallionnotes.pythonanywhere.com/explore-books/";
       const response = await axios.get(url, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -169,7 +169,11 @@ function ResponsiveAppBar({ searched, setSearched }) {
   const handleSearchClick = (e) => {
     e.preventDefault();
     navigate('/explore')
-    fetchData(searchField);
+
+    setTimeout(() => {
+      if (location.pathname === '/explore')
+        fetchData(searchField);
+    }, 1000)
 
   };
 

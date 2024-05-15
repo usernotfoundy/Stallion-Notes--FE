@@ -194,7 +194,7 @@ const CartButton = ({ color }) => {
     const fetchData = async () => {
       const token = localStorage.getItem('authToken');
       try {
-        const response = await axios.get('http://127.0.0.1:8000/view-cart/', {
+        const response = await axios.get('https://stallionnotes.pythonanywhere.com/view-cart/', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         // Initialize isSelected based on the localStorage or default state

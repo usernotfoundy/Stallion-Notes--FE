@@ -12,7 +12,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import ViewItemModal from './viewitemmodal';
 
-const EXPLORE_API_URL = 'http://127.0.0.1:8000/explore-books/';
+const EXPLORE_API_URL = 'https://stallionnotes.pythonanywhere.com/explore-books/';
 const token = localStorage.getItem('authToken');
 
 

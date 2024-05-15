@@ -154,7 +154,7 @@ export const CartProvider = ({ children }) => {
     // const removeFromCart = async (id) => {
     //     try {
     //         const token = localStorage.getItem('authToken');
-    //         await axios.delete(`http://127.0.0.1:8000/delete-cart/${id}`, {
+    //         await axios.delete(`https://stallionnotes.pythonanywhere.com/delete-cart/${id}`, {
     //             headers: { 'Authorization': `Bearer ${token}` }
     //         });
     //         const updatedCart = cart.filter(item => item.id !== id);
@@ -166,7 +166,7 @@ export const CartProvider = ({ children }) => {
     const removeFromCart = async (id) => {
         try {
             const token = localStorage.getItem('authToken');
-            await axios.delete(`http://127.0.0.1:8000/delete-cart/${id}`, {
+            await axios.delete(`https://stallionnotes.pythonanywhere.com/delete-cart/${id}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const updatedCart = cart.filter(item => item.id !== id);

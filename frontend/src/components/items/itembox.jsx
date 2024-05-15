@@ -1,6 +1,10 @@
 import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Typography, Box, Chip, Button, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText, TextField, CircularProgress } from '@mui/material';
+import { Typography, Box, Chip, IconButton, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText, TextField, CircularProgress, Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const ItemBox = ({ img, id, title, description, price, onDelete, onEdit, genre }) => {
   const StatusText = "Posted";
@@ -9,6 +13,10 @@ const ItemBox = ({ img, id, title, description, price, onDelete, onEdit, genre }
   const [editedData, setEditedData] = useState({ title, description, price });
   const [loading, setLoading] = useState(false);
   const [editError, setEditError] = useState(null);
+
+  const theme = useTheme();
+  const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 
   const getStatusBackgroundColor = useCallback((text) => {
     switch (text) {
@@ -61,11 +69,20 @@ const ItemBox = ({ img, id, title, description, price, onDelete, onEdit, genre }
 
   return (
     <>
-      <Box flexDirection='column' key={id}>
+      <Box
+        flexDirection="column"
+        key={id}
+        sx={{
+          width: 'inherit',
+          height: 'auto',
+          margin: '10px',
+          mb: 2,
+        }}
+      >
         <Box
-          width='195px'
-          height='115px'
-          borderRadius='5px'
+          height={isSmDown ? '200px' : '200px'}
+          width={isSmDown ? '300px' : '190px'}
+          borderRadius="5px"
           style={{
             backgroundImage: img ? `url("${img}")` : 'url("https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg")',
             backgroundSize: 'cover',
@@ -77,7 +94,7 @@ const ItemBox = ({ img, id, title, description, price, onDelete, onEdit, genre }
           sx={{ mt: 1 }}
         >
           <Chip
-            variant='outlined'
+            variant="outlined"
             label={StatusText}
             sx={{
               m: 1,
@@ -90,7 +107,7 @@ const ItemBox = ({ img, id, title, description, price, onDelete, onEdit, genre }
             }}
           />
         </Box>
-        <Box sx={{ width: 'inherit', height: '110px', p: '1px', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ width: '200px', p: '1px', display: 'flex', flexDirection: 'column' }}>
           <Box>
             <Typography variant="subtitle2" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'left' }}>
               <strong>Title: </strong>{title}
@@ -105,13 +122,13 @@ const ItemBox = ({ img, id, title, description, price, onDelete, onEdit, genre }
               <strong>Price:</strong>{price}
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 1, px: 0 }}>
-            <Button onClick={handleDeleteClick} disabled={loading}>
-              {loading ? <CircularProgress size={14} /> : "Delete"}
-            </Button>
-            <Button variant="contained" color="success" onClick={handleEditClick} disabled={loading}>
-              Edit
-            </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end ', alignItems: 'center', pt: 1, px: 0 }}>
+            <IconButton onClick={handleDeleteClick} disabled={loading}>
+              {loading ? <CircularProgress size={14} /> : <DeleteIcon />}
+            </IconButton>
+            <IconButton onClick={handleEditClick} disabled={loading} sx={{ color: 'green' }}>
+              <EditIcon />
+            </IconButton>
           </Box>
         </Box>
       </Box>
@@ -154,6 +171,7 @@ ItemBox.propTypes = {
   price: PropTypes.number.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
+  genre: PropTypes.string.isRequired,
 };
 
 export default ItemBox;

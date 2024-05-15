@@ -1,13 +1,14 @@
 /* eslint-disable no-unused-vars */
-import { Box, Typography, Grid, CircularProgress } from '@mui/material';
-import ItemBox from '../items/itembox';  // Ensure the import path matches your project structure
-import useBooks from '../hooks/useBooks';  // Ensure the import path matches your project structure
+import { Box, Typography, Grid, CircularProgress, Divider } from '@mui/material';
+import ItemBox from '../items/itembox';
+import useBooks from '../hooks/useBooks';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const UPDATE_BOOK_API_URL = 'http://127.0.0.1:8000/update-book/'
-const DELETE_BOOKS_API_URL = 'http://127.0.0.1:8000/delete-book/'
-const VIEW_BOOKS_API_URL = 'http://127.0.0.1:8000/view-books/'
+const UPDATE_BOOK_API_URL = 'https://stallionnotes.pythonanywhere.com/update-book/'
+const DELETE_BOOKS_API_URL = 'https://stallionnotes.pythonanywhere.com/delete-book/'
+const VIEW_BOOKS_API_URL = 'https://stallionnotes.pythonanywhere.com/view-books/'
+const color = '#10439F';
 
 const BookmanagementTab = () => {
   const token = localStorage.getItem('authToken');
@@ -74,9 +75,15 @@ const BookmanagementTab = () => {
 
   return (
     <Box sx={{ maxHeight: '464px', overflow: 'auto' }}>
+      <Grid sx={{ position: 'sticky', top: '0', zIndex: '1', backgroundColor: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant="h6" fontFamily="Poppins" sx={{ fontSize: '28px', color: 'GreyText' }} gutterBottom>
+          Book Management
+        </Typography>
+        <Divider sx={{ mt: 2, mb: 1 }} />
+      </Grid>
       {books.length > 0 ? (
         <>
-          <Grid container spacing={2}>
+          <Grid container spacing={0}>
             {books.map(book => (
               <Grid key={book.id} item xs={12} sm={6} md={4} lg={3}>
                 <ItemBox
@@ -89,7 +96,7 @@ const BookmanagementTab = () => {
           </Grid>
         </>
       ) : (
-        <Typography variant="body1" color="inherit">No books available.</Typography>
+        <Typography variant="body1" color="inherit">Upload your books now.</Typography>
       )}
     </Box>
   );

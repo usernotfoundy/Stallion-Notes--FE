@@ -70,17 +70,17 @@ const ProfilePage = () => {
           direction="row"
           justifyContent="start"
           alignItems="start"
-          position='sticky'
+          // position='sticky'  
           ml='10px'
         >
-          <Grid item xs={2.6} mt='40px' mr='25px'>
+          <Grid item xs={2} mt='40px' mr='25px'>
             <Item>
               <ProfileTab value={value} handleChange={handleChange} />
             </Item>
           </Grid>
-
+          {/* `${color}` */}
           <Grid item xs={8.8} position='sticky' mt='40px'>
-            <Typography sx={{ fontSize: 36, fontFamily: 'Poppins', fontWeight: 'bold', color: `${color}` }}>Profile Settings</Typography>
+            <Typography sx={{ fontSize: 36, fontFamily: 'Poppins', fontWeight: 'bold', color: 'GrayText' }}>Profile Settings</Typography>
             <Item>
               <TabPanel value={value} index={0}></TabPanel>
               <TabPanel value={value} index={2}></TabPanel>

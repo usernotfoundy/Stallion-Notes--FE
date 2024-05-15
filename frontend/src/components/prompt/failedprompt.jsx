@@ -55,21 +55,19 @@ export default function FailedPrompt({ open, handleClose }) {
     if (!open) return null;
 
     return (
-        <Grid container style={{ position: 'fixed', top: '35%', left: '75%', transform: 'translate(-50%, 0%)', zIndex: 1000 }}>
-            <Item elevation={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: "white" }}>
-                <Box width='100px' height='100px' bgcolor='#f2d5da' display='flex' justifyContent={'center'} alignItems={'center'} sx={{ position: 'absolute', top: '0px', left: '0px' }}>
+        <Grid container style={{ position: 'fixed', top: '10%', left: '100%', transform: 'translate(-40%, 0%)', zIndex: 1000 }}>
+            <Item elevation={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+                <Box sx={{ borderColor: '#f1a0ad', borderStyle: 'dashed', borderRadius: '3px', borderWidth: '2px', width: '285px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <WrongIcon color='error' sx={{ fontSize: '40px' }} />
-                </Box>
-                <Box display='flex' flexDirection='row' position="relative">
-                    <Box sx={{ pl: 12, m: 3, borderColor: '#f1a0ad', borderStyle: 'dashed', borderRadius: '3px', borderWidth: '2px', height: '80px', width: '485px', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', position: 'relative' }}>
-                        <div style={{ display: 'flex', alignItems: 'start', flexDirection: 'column' }}>
-                            <Typography sx={{ fontSize: '18px', fontWeight: '600', color: 'error.main' }}>Oh No!</Typography>
-                            <Typography>Your order has failed!</Typography>
-                            <Button variant="contained" size='small' onClick={handleClose} sx={{ position: 'absolute', bottom: '9px', right: '10px', textTransform: 'capitalize', bgcolor: 'error.main' }}>Ok</Button>
-                        </div>
-                    </Box>
+                    <div style={{ display: 'flex', alignItems: 'start', flexDirection: 'column', justifyContent: 'center' }}>
+                        <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Woo Hoo !</Typography>
+                        <Typography sx={{ fontSize: '12px' }}>{msg}</Typography>
+                        {/* <Button variant="contained" size='small' onClick={handleClose} sx={{ position: 'absolute', bottom: '9px', right: '10px', textTransform: 'capitalize' }}>Ok</Button> */}
+                    </div>
                 </Box>
             </Item>
+
         </Grid>
+
     );
 }
