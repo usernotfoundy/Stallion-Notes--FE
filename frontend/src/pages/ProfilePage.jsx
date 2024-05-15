@@ -19,7 +19,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if (!authToken) {
       alert("You're not logged in!");
-      navigate('/login'); // Redirect to login if not authenticated
+      navigate('/'); // Redirect to login if not authenticated
     }
   }, []);
 

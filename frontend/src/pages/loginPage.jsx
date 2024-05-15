@@ -51,7 +51,7 @@ const LoginPage = () => {
       console.log('Login successful', response.data);
       setLogged(true);
 
-      navigate('/');
+      navigate('/home');
 
       // Step 4: Optionally, set up Axios defaults for subsequent requests
       Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

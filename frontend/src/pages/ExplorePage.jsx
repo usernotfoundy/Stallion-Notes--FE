@@ -102,7 +102,7 @@ const ExplorePage = () => {
         // If authToken is not available, redirect to login page
         if (!authToken) {
             alert("You're not Login!");
-            navigate('/login'); // Replace '/login' with the actual login page route
+            navigate('/'); // Replace '/login' with the actual login page route
         }
     }, []);
 

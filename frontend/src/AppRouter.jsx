@@ -10,10 +10,10 @@ import ExplorePage from './pages/ExplorePage';
 
 const AppRouter = () => (
   <Routes>
-    <Route path='' element={<HomePage />} />
+    <Route path='/home' element={<HomePage />} />
     <Route path="/about" element={<AboutPage />} />
     <Route path="/contact" element={<ContactPage />} />
-    <Route path="/login" element={<LoginPage />} />
+    <Route path="/" element={<LoginPage />} />
     <Route path="/register" element={<RegisterPage />} />
     <Route path="/profile/:tab" element={<ProfilePage />} /> {/* Dynamic route */}
     <Route path="/explore" element={<ExplorePage />} />
