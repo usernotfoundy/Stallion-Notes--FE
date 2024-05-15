@@ -124,7 +124,7 @@ export default function RecipeReviewCard() {
   };
   useEffect(() => {
 
-    if (location.pathname === '/') {
+    if (location.pathname === '/home') {
       setTimeout(() => {
         // window.location.reload();
         fetchData();
