@@ -142,8 +142,10 @@ const FeedbackModal = ({ open, onClose }) => {
           <FBRatings setRating={setRating} />
         </Box>
         <TextField
+        focused
+          placeholder="Alumni are encoraged to make a meaningful feedback regarding to the system"
           label="Comments"
-          variant="outlined"
+          variant='outlined'
           fullWidth
           multiline
           rows={3}

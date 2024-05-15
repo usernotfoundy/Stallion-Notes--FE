@@ -19,7 +19,7 @@ export default function SearchBar({ handleSearchChange, handleClearClick, handle
         alignItems: 'center',
         width: 400,
         borderColor: `${color}`,
-        borderWidth: '2px',
+        borderWidth: '1px',
         borderStyle: 'solid',
         height: 35,
         boxShadow: 'none'

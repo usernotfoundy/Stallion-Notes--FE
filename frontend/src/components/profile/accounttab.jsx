@@ -332,7 +332,7 @@ export default function AccountFor() {
                             <Box ml={isMdDown ? '20px' : '80px'}>
                                 <Grid item xs={12} sm={7}>
                                     <TextField type="password"
-                                        disabled={!isEditButton}
+                                        disabled={true}
                                         id="oldpass"
                                         name="oldpass"
                                         label="Old Password"
@@ -345,7 +345,7 @@ export default function AccountFor() {
                                 </Grid>
                                 <Grid item xs={12} sm={7}>
                                     <TextField
-                                        disabled={!isEditButton}
+                                        disabled={true}
                                         id="newpass"
                                         name="newpass"
                                         label="New Password"
@@ -356,7 +356,7 @@ export default function AccountFor() {
                                 </Grid>
                                 <Grid item xs={12} sm={7}>
                                     <TextField
-                                        disabled={!isEditButton}
+                                        disabled={true}
                                         id="confirm-pass"
                                         name="confirm-pass"
                                         label="Confirm Password"
