@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Box, Typography, Button, TextField, Link } from "@mui/material";
 // import DividerWithText from "../components/divider";
-import UserGreeting from '../components/userGreetings';
+import UserGreeting from './components/userGreetings';
 import { useNavigate } from 'react-router-dom';
 // import { red } from '@mui/material/colors';
 import Axios from 'axios';
@@ -51,7 +51,7 @@ const LoginPage = () => {
       console.log('Login successful', response.data);
       setLogged(true);
 
-      navigate('/');
+      navigate('/home');
 
       // Step 4: Optionally, set up Axios defaults for subsequent requests
       Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

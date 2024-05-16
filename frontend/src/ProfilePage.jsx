@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import ResponsiveAppBar from '../components/header/header-frontend';
-import ProfileTab from '../components/profile/profiletabs';
-import TabPanel from '../components/profile/tabpanels';
+import ResponsiveAppBar from './components/header/header-frontend';
+import ProfileTab from './components/profile/profiletabs';
+import TabPanel from './components/profile/tabpanels';
 import { Box, Paper, Grid, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if (!authToken) {
       alert("You're not logged in!");
-      navigate('/login'); // Redirect to login if not authenticated
+      navigate('/'); // Redirect to login if not authenticated
     }
   }, []);
 

@@ -134,7 +134,7 @@ function ResponsiveAppBar({ searched, setSearched }) {
   const home = (event) => {
     event.preventDefault();
 
-    navigate('/');
+    navigate('/home');
   }
 
   const [searchField, setSearchField] = useState('');

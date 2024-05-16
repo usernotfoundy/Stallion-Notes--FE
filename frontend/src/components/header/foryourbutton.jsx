@@ -12,7 +12,7 @@ export default function IconLabelButtons() {
   const foryou = (event) => {
     event.preventDefault();
 
-    navigate('/')
+    navigate('/home')
   }
   return (
     <>

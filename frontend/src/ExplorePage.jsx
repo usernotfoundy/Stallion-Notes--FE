@@ -81,13 +81,13 @@
 
 /*eslint-disable no-unused-vars*/
 import { Box, Container, Grid, Stack, Typography } from "@mui/material";
-import Header from '../components/header/header-frontend';
-import LeftBar from '../components/homepage/LeftBar';
-import RightBar from '../components/homepage/RightBar';
-import ExploreBar from '../components/explorepage/explorebar';
-import FeedBar from '../components/homepage/FeedBar';
-import FeedbackButton from "../components/feedbackbtn";
-import ResponsiveAppBar from "../components/header/header-frontend";
+import Header from './components/header/header-frontend';
+import LeftBar from './components/homepage/LeftBar';
+import RightBar from './components/homepage/RightBar';
+import ExploreBar from './components/explorepage/explorebar';
+import FeedBar from './components/homepage/FeedBar';
+import FeedbackButton from "./components/feedbackbtn";
+import ResponsiveAppBar from "./components/header/header-frontend";
 import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -102,7 +102,7 @@ const ExplorePage = () => {
         // If authToken is not available, redirect to login page
         if (!authToken) {
             alert("You're not Login!");
-            navigate('/login'); // Replace '/login' with the actual login page route
+            navigate('/'); // Replace '/login' with the actual login page route
         }
     }, []);
 
