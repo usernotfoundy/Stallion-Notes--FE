@@ -46,16 +46,16 @@ export default function BasicMenu() {
   return (
     <div>
       <Typography variant="h1" color="initial"></Typography>
-      <Container sx={{ width: '30px', display: 'flex', justifyContent: 'center', mx: 'auto', marginRight: '20px' }}
-        id="profile-menu"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        <PersonRoundedIcon sx={{ color: '#50623A', width: '35px', height: '35px' }} />
-        <ArrowDropDownRoundedIcon sx={{ color: '#50623A', width: '35px', height: '35px' }} />
-        {/* {loading && <p>Loading image...</p>}
+          <Container sx={{ width:'30px', display:'flex',justifyContent:'center', mx:'auto', marginRight:'20px'}}
+            id="profile-menu"
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+          >
+          <PersonRoundedIcon sx={{color:'#50623A', width:'35px', height:'35px'}}/>
+          <ArrowDropDownRoundedIcon sx={{color:'#50623A', width:'35px', height:'35px'}}/>
+          {/* {loading && <p>Loading image...</p>}
           {error && <p style={{ color: 'red' }}>{error}</p>}
           {imageUrl && (
             <div>
@@ -65,20 +65,20 @@ export default function BasicMenu() {
             </div>
           )} */}
 
-      </Container>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'profile-menu',
-        }}
-      >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
-      </Menu>
+          </Container>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'profile-menu',
+            }}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
     </div>
   );
 }

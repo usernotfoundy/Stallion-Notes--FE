@@ -12,21 +12,21 @@ function App() {
   return (
     <>
       {/* <ResponsiveAppBar/> */}
-        <Router>
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', mx: 'auto', backgroundColor: '#f5f5f5' }}>
         {/* <BasicMenu/> */}
         {/* <CartProvider> */}
 
+        <Router>
 
           {/* routes goes  here */}
           <AppRouter />
 
           {/* test button that hides when loggedin */}
           {/* <CButton name="ems" /> */}
+        </Router>
         {/* </CartProvider> */}
 
       </Box>
-        </Router>
 
       {/* <Container maxWidth='full' sx={{bgcolor:'#50623A',border:1,m:0,p:0,minHeight:"100vh", overflow:'hidden'}}>
     </Container> */}

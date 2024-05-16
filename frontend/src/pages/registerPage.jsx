@@ -158,7 +158,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, TextField, Link, Select, MenuItem, InputLabel, Divider } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import UserGreeting from './components/userGreetings';
+import UserGreeting from '../components/userGreetings';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';

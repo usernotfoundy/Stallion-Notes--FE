@@ -58,7 +58,7 @@ export default function BasicMenu() {
 
     try {
       localStorage.removeItem('authToken');
-      navigate('/');
+      navigate('/login');
       console.log('Logged out')
     } catch (error) {
       console.log(error)

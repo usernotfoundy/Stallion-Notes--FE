@@ -1,19 +1,19 @@
 import { Route, Routes } from 'react-router-dom';
-import HomePage from './home';
+import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
-import LoginPage from './loginPage';
-import { RegisterPage } from './registerPage';
-import ProfilePage from './ProfilePage';
+import LoginPage from './pages/loginPage';
+import { RegisterPage } from './pages/registerPage';
+import ProfilePage from './pages/ProfilePage';
 import CheckoutPage from './pages/CheckoutPage';
-import ExplorePage from './ExplorePage';
+import ExplorePage from './pages/ExplorePage';
 
 const AppRouter = () => (
   <Routes>
-    <Route path='/home' element={<HomePage />} />
+    <Route path='' element={<HomePage />} />
     <Route path="/about" element={<AboutPage />} />
     <Route path="/contact" element={<ContactPage />} />
-    <Route path="/" element={<LoginPage />} />
+    <Route path="/login" element={<LoginPage />} />
     <Route path="/register" element={<RegisterPage />} />
     <Route path="/profile/:tab" element={<ProfilePage />} /> {/* Dynamic route */}
     <Route path="/explore" element={<ExplorePage />} />
