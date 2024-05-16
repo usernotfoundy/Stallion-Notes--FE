@@ -118,7 +118,7 @@ const customIcons = {
 };
 
 const FBRatings = ({ setRating }) => {
-  const [value, setValue] = useState(5);
+  const [value, setValue] = useState(3);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

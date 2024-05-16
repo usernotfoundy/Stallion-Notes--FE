@@ -222,7 +222,7 @@ export const RegisterPage = () => {
         });
         setCourseOptions(response.data);
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error('Error fetching courses:', error.message);
       }
     };
     if (college !== '') {
@@ -241,7 +241,7 @@ export const RegisterPage = () => {
         } else if (password !== confirmPassword) {
           setErrorMessage("Passwords don't match.");
           hasError = true;
-        } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
+        } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
           setErrorMessage("Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character.");
           hasError = true;
         }
