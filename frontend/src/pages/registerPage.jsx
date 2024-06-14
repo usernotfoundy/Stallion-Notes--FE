@@ -163,10 +163,15 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import SuccesPrompt from '../components/prompt/successprompt';
+import FailedPrompt from '../components/prompt/failedprompt';
 
-const REGISTER_API_URL = 'https://stallionnotes.pythonanywhere.com/register/';
-const COLLEGES_API_URL = 'https://stallionnotes.pythonanywhere.com/view-college/';
-const COURSES_API_URL = 'https://stallionnotes.pythonanywhere.com/view-course/';
+const REGISTER_API_URL = 'http://127.0.0.1:8000/register/';
+const COLLEGES_API_URL = 'http://127.0.0.1:8000/view-college/';
+const COURSES_API_URL = 'http://127.0.0.1:8000/view-course/';
+const color = '#10439F';
+const PREFERENCES_API_URL = 'http://127.0.0.1:8000/create-genre-pref/';
+
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -188,6 +193,9 @@ export const RegisterPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [collegeOptions, setCollegeOptions] = useState([]);
   const [courseOptions, setCourseOptions] = useState([]);
+  const [genreOptions, setGenreOptions] = useState([]); // State to hold genre options
+  const [selectedGenre, setSelectedGenre] = useState(null); // State to hold selected genre
+  const [searchTerm, setSearchTerm] = useState('');
   const [genres] = useState([
     "Engineering",
     "Finance",
@@ -198,6 +206,12 @@ export const RegisterPage = () => {
     "Communication",
     "Languages",
     "Accountancy"]);
+
+  const [type, setType] = useState('WARNING');
+  const [msg, setMsg] = useState('Unknown Error');
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showFailed, setShowFailed] = useState(false);
+
 
   useEffect(() => {
     const fetchColleges = async () => {
@@ -210,6 +224,23 @@ export const RegisterPage = () => {
     };
     fetchColleges();
   }, []);
+  useEffect(() => {
+    const fetchGenreOptions = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/view-genre/');
+        setGenreOptions(response.data); // Set genre options from API response
+        // console.log('genre data: ', response.data)
+      } catch (error) {
+        console.error('Failed to fetch genre options:', error);
+      }
+    };
+
+    fetchGenreOptions(); // Fetch genre options when component mounts
+  }, []);
+
+  const handleGenreChange = (event, value) => {
+    setSelectedGenre(value?.id || null); // Update selected genre ID
+  };
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -241,10 +272,11 @@ export const RegisterPage = () => {
         } else if (password !== confirmPassword) {
           setErrorMessage("Passwords don't match.");
           hasError = true;
-        } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
-          setErrorMessage("Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character.");
-          hasError = true;
         }
+        // else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
+        //   setErrorMessage("Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character.");
+        //   hasError = true;
+        // }
         break;
 
       case 2: // Validate personal information
@@ -308,31 +340,67 @@ export const RegisterPage = () => {
       phone_number: phoneNumber,
       college,
       course,
-      gender,
-      birthdate,
-      genres: selectedGenres.join(",") // Convert array to comma-separated string
+      // gender,
+      // birthdate,
+      genre_prefs: selectedGenres.map((genre, index) => ({
+        [`genre_pref`]: genre
+      }))
+      // genres: selectedGenres.join(",") // Convert array to comma-separated string
     };
 
     try {
-      const response = await axios.post(REGISTER_API_URL, payload);
+      const response = await axios.post(PREFERENCES_API_URL, payload);
       console.log('Registration successful', response.data);
-      navigate('/login');
+      setType('SUCCESS');
+      setShowSuccess(true)
+      setMsg('Account has been registered!')
+      setTimeout(() => {
+        setShowSuccess(false);  // Auto-hide success message after a delay
+        navigate('/verify');
+      }, 3000);
     } catch (error) {
       console.error('Registration error:', error);
+      setMsg('Registration error!');
+      setShowFailed(true)
+      setType('ERROR');
       if (error.response && error.response.data && error.response.data.username) {
+        setShowFailed(true)
         setErrorMessage(`Failed to register: ${error.response.data.username[0]}`);
       }
       else if (error.response && error.response.data && error.response.data.course) {
+        setShowFailed(true)
         setErrorMessage(`Failed to register: 'College and Course' ${error.response.data.course[0]}`);
       }
       else if (error.config && error.response.data && error.response.username) {
+        setShowFailed(true)
         setErrorMessage(`Failed to register: ${error.response.data.username[0]}`);
       }
       else {
+        setShowFailed(true)
         setErrorMessage('Failed to register. Please try again later.',);
         // console.error('Registration error:', error);
       }
     }
+
+    // const payload1 = {
+    //   username,
+    //   genre_prefs: selectedGenres.map((genre, index) => ({
+    //     [`genre_pref`]: genre
+    //   }))
+    // };
+
+    // try {
+    //   const response = await axios.post(PREFERENCES_API_URL, payload1, {
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   });
+    //   console.log('Genre preferences created successfully', response.data);
+    //   return response.data;
+    // } catch (error) {
+    //   console.error('Failed to create genre preferences:', error);
+    //   throw error;
+    // }
 
   };
 
@@ -343,6 +411,27 @@ export const RegisterPage = () => {
       if (selectedGenres.length < 4) {
         setSelectedGenres([...selectedGenres, genre]);
       }
+    }
+  };
+
+
+  const createGenrePreferences = async (username, genres) => {
+    const payload1 = {
+      username: username,
+      genre_prefs: genres.map(genre => ({ genre_pref: genre }))
+    };
+
+    try {
+      const response = await axios.post(PREFERENCES_API_URL, payload1, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log('Genre preferences created successfully', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Failed to create genre preferences:', error);
+      throw error;
     }
   };
 
@@ -366,49 +455,56 @@ export const RegisterPage = () => {
             <TextField sx={{ mb: 2, mt: 1, }} label="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} />
             <TextField sx={{ mb: 2, }} label="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} />
             <TextField sx={{ mb: 2, }} label="Middle Name" value={middleName} onChange={e => setMiddleName(e.target.value)} />
-            {/* <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', mt: 1, mb: 2 }}>
-              <TextField
-                sx={{ width: 200, '& label.Mui-focused': { color: 'orange', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: 'orange', }, }, }}
-                select
-                size="small"
-                label="Gender"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <MenuItem value="">None</MenuItem>
-                <MenuItem value="male">Male</MenuItem>
-                <MenuItem value="female">Female</MenuItem>
-                <MenuItem value="other">Other</MenuItem>
-              </TextField>
-              <TextField
-                sx={{ width: 200, '& label.Mui-focused': { color: 'orange', }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: 'orange', }, }, }}
-                size="small"
-                label="Birthdate"
-                type="date"
-                value={birthdate}
-                onChange={e => setBirthdate(e.target.value)}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Box> */}
             <TextField sx={{ mb: 2, }} label="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} />
             <TextField sx={{}} label="Phone Number" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
           </Box>
         );
       case 3:
+        const filteredGenres = genreOptions.filter((genre) =>
+          genre.genre_name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
         return (
-          <Box sx={{ display: 'flex', flexDirection: 'column', height: 'auto', }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', height: '45vh', }}>
             <Box>
               <Typography variant="h6" sx={{ color: "#002f1b", fontFamily: 'Poppins' }}>What genre are you interested in?</Typography>
               {/* <Divider sx={{ mb: 1 }} /> */}
-            </Box>
-            <Box sx={{ columns: '3 auto' }} >
-              {genres.map((genre) => (
+            </Box> <TextField
+              id="outlined-search"
+              label="Search Genre"
+              size='small'
+              type="search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              focused
+              sx={{ mb: 1, mt: 1 }}
+            />
+            <Box>
+              {selectedGenres.map((genre) => (
                 <Button
                   key={genre}
-                  variant={selectedGenres.includes(genre) ? "contained" : "outlined"}
+                  variant="contained"
                   onClick={() => handleGenreSelect(genre)}
+                  style={{
+                    marginRight: 10,
+                    marginBottom: 10,
+                    borderRadius: 50,
+                    width: 130,
+                    fontSize: 10,
+                    borderColor: `${color}`,
+                    color: '#f1f1f1',
+                    backgroundColor: '#10439f',
+                  }}
+                >
+                  {genre}
+                </Button>
+              ))}
+            </Box>
+            <Box sx={{ overflow: 'auto', maxHeight: '35vh' }} >
+              {filteredGenres.map((genre) => (
+                <Button
+                  key={genre.id}
+                  variant={selectedGenres.includes(genre.genre_name) ? "contained" : "outlined"}
+                  onClick={() => handleGenreSelect(genre.genre_name)}
                   style={{
                     padding: 12,
                     marginTop: 15,
@@ -420,7 +516,7 @@ export const RegisterPage = () => {
                     // backgroundColor: selectedGenres.includes(genre) ? '#698152' : '#f1f1f1',
                   }}
                 >
-                  {genre}
+                  {genre.genre_name}
                 </Button>
               ))}
             </Box>
@@ -439,14 +535,6 @@ export const RegisterPage = () => {
               onChange={(e) => setCollege(e.target.value)}
               sx={{
                 mb: 2, mt: 1,
-                // '& .MuiOutlinedInput-root': {
-                // '&:hover .MuiOutlinedInput-notchedOutline': {
-                //   borderColor: 'orange', // Correctly sets hover border color to orange
-                // },
-                // '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                //   borderColor: 'orange', // Correctly sets focus border color to orange
-                // },
-                // }
               }}
 
             >
@@ -463,9 +551,6 @@ export const RegisterPage = () => {
               onChange={(e) => setCourse(e.target.value)}
               sx={{
                 mb: 2, mt: 1,
-                // '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                //   borderColor: 'orange', // Correctly sets focus border color to orange
-                // },
               }}
             >
               <MenuItem value="">None</MenuItem>
@@ -534,6 +619,8 @@ export const RegisterPage = () => {
           <Typography variant="subtitle1" color="GrayText">Already a user?</Typography>
           <Link href="/login" sx={{ textDecoration: 'none', my: 'auto', mx: 1, fontSize: '16px' }}>Login</Link>
         </Box>
+        <SuccesPrompt msg={msg} open={showSuccess} />
+        {showFailed && <FailedPrompt msg={msg} />}
       </Box>
     </Box >
   );

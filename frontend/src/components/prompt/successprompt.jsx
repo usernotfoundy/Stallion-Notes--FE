@@ -11,7 +11,7 @@ const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    height: 70,
+    minHeight: 70,
     lineHeight: '60px',
     width: 'fit',
     paddingInline: '10px',
@@ -34,7 +34,7 @@ export default function SuccessPrompt({ open, handleClose, msg }) {
                     <CheckCircleIcon color='success' sx={{ fontSize: '40px' }} />
                     <div style={{ display: 'flex', alignItems: 'start', flexDirection: 'column', justifyContent: 'center' }}>
                         <Typography sx={{ fontSize: '14px', fontWeight: '600' }}>Woo Hoo !</Typography>
-                        <Typography sx={{ fontSize: '12px', ml:'10px' }}>{msg}</Typography>
+                        <Typography sx={{ fontSize: '12px', ml: '10px' }}>{msg}</Typography>
                         {/* <Button variant="contained" size='small' onClick={handleClose} sx={{ position: 'absolute', bottom: '9px', right: '10px', textTransform: 'capitalize' }}>Ok</Button> */}
                     </div>
                 </Box>

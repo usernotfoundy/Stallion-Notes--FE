@@ -12,20 +12,20 @@ const CheckoutGridBox = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   height: 500,
   color: '#50623A',
-  borderRadius:10
+  borderRadius: 10
 }));
 export default function ShoppingCartPage() {
   return (
     <>
       <ResponsiveAppBar />
       <Container >
-          <Grid container spacing={0} display='flex' justifyContent='center' alignItems='center' minHeight="90vh">
-            <Grid item xs={15} >
-              <CheckoutGridBox>
-                <CheckoutGrid/>
-              </CheckoutGridBox>
-            </Grid>
+        <Grid container spacing={0} display='flex' justifyContent='center' alignItems='center' minHeight="90vh">
+          <Grid item xs={15} >
+            <CheckoutGridBox>
+              <CheckoutGrid />
+            </CheckoutGridBox>
           </Grid>
+        </Grid>
       </Container>
     </>
   );

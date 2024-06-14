@@ -5,14 +5,16 @@ import useBooks from '../hooks/useBooks';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-const UPDATE_BOOK_API_URL = 'https://stallionnotes.pythonanywhere.com/update-book/'
-const DELETE_BOOKS_API_URL = 'https://stallionnotes.pythonanywhere.com/delete-book/'
-const VIEW_BOOKS_API_URL = 'https://stallionnotes.pythonanywhere.com/view-books/'
+const UPDATE_BOOK_API_URL = 'http://127.0.0.1:8000/update-book/'
+const DELETE_BOOKS_API_URL = 'http://127.0.0.1:8000/delete-book/'
+const VIEW_BOOKS_API_URL = 'http://127.0.0.1:8000/view-books/'
 const color = '#10439F';
 
 const BookmanagementTab = () => {
   const token = localStorage.getItem('authToken');
   const { books, setBooks, loading, error } = useBooks(token);
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +26,7 @@ const BookmanagementTab = () => {
           },
         });
         console.log("Viewed book data", response.data);
+        setBooks(response.data);
       } catch (err) {
         console.error('Failed to fetch books', err);
       }
@@ -76,12 +79,12 @@ const BookmanagementTab = () => {
   return (
     <Box sx={{ maxHeight: '464px', overflow: 'auto' }}>
       <Grid sx={{ position: 'sticky', top: '0', zIndex: '1', backgroundColor: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h6" fontFamily="Poppins" sx={{ display: 'flex', justifyContent: 'start', fontSize: '28px', color: `${color}`  }} gutterBottom>
+        <Typography variant="h6" fontFamily="Poppins" sx={{ display: 'flex', justifyContent: 'start', fontSize: '28px', color: `${color}` }} gutterBottom>
           Book Management
         </Typography>
       </Grid>
-        <Divider sx={{ mt: 2, mb: 1 }} />
-      {books.length > 0 ? (
+      <Divider sx={{ mt: 2, mb: 1 }} />
+      {Array.isArray(books) && books.length > 0 ? (
         <>
           <Grid container spacing={0}>
             {books.map(book => (
@@ -103,3 +106,6 @@ const BookmanagementTab = () => {
 };
 
 export default BookmanagementTab;
+
+
+

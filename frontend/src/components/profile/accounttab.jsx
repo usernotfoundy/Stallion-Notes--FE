@@ -7,8 +7,8 @@ import { styled, useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-const VIEW_PROFILE_API_URL = 'https://stallionnotes.pythonanywhere.com/view-profile/';
-const UPDATE_PROFILE_API_URL = 'https://stallionnotes.pythonanywhere.com/update-user/';
+const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/';
+const UPDATE_PROFILE_API_URL = 'http://127.0.0.1:8000/update-user/';
 const color = '#10439F';
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
@@ -45,6 +45,7 @@ export default function AccountFor() {
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
 
     const viewProfiles = useCallback(async () => {
+        const token = localStorage.getItem('authToken');
         try {
             const res = await axios.get(VIEW_PROFILE_API_URL, {
                 headers: {
@@ -77,6 +78,7 @@ export default function AccountFor() {
         formData.append('middle_name', editedProfile.middle_name);
         formData.append('phone_number', editedProfile.phone_number);
         formData.append('email', editedProfile.email);
+        const token = localStorage.getItem('authToken');
 
         try {
             const res = await axios.patch(UPDATE_PROFILE_API_URL, formData, {
@@ -129,6 +131,7 @@ export default function AccountFor() {
 
         const formData = new FormData();
         formData.append('profile_img', image);
+        const token = localStorage.getItem('authToken');
 
         try {
             const response = await axios.patch(UPDATE_PROFILE_API_URL, formData, {
@@ -155,6 +158,7 @@ export default function AccountFor() {
     const Profile_Url = img;
 
     const pic = async () => {
+        const token = localStorage.getItem('authToken');
         try {
             const response = await axios.get(VIEW_PROFILE_API_URL, {
                 headers: {

@@ -11,9 +11,9 @@ const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    height: 100,
+    minHeight: 70,
     lineHeight: '60px',
-    width: 600,
+    width: 'fit',
     overflow: 'hidden',
     animation: 'fadeIn 0.2s ease-in',
     '@keyframes fadeIn': {
@@ -51,7 +51,7 @@ const Item = styled(Paper)(({ theme }) => ({
 //     );
 // }
 
-export default function FailedPrompt({ open, handleClose }) {
+export default function FailedPrompt({ open, handleClose, msg }) {
     if (!open) return null;
 
     return (

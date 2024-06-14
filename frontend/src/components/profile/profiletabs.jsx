@@ -12,11 +12,13 @@ import HistoryIcon from '@mui/icons-material/History';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import VerifiedRoundedIcon from '@mui/icons-material/VerifiedRounded';
+import NewReleasesRoundedIcon from '@mui/icons-material/NewReleasesRounded';
 import { styled, useTheme } from '@mui/material/styles';
 import { Divider } from '@mui/material';
 import axios from 'axios';
 
-const VIEW_PROFILE_API_URL = 'https://stallionnotes.pythonanywhere.com/view-profile/';
+const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/';
 const token = localStorage.getItem('authToken');
 const color = '#10439F';
 
@@ -84,6 +86,7 @@ function ProfileTab(props) {
   const [img, setImg] = useState(null);
   const [username, setUsername] = useState();
   const [name, setName] = useState();
+  const [user, setUser] = useState([])
   const theme = useTheme();
 
   useEffect(() => {
@@ -98,6 +101,7 @@ function ProfileTab(props) {
         setImg(response.data.profile_img);
         setUsername(response.data.email);
         setName(response.data.username);
+        setUser(response.data)
       } catch (err) {
         console.error('Failed to view profile information', err);
         alert('Failed to view profile information');
@@ -113,6 +117,8 @@ function ProfileTab(props) {
       document.body.style.overflow = 'auto';
     };
   }, []);
+
+
 
   return (
     <Box
@@ -130,8 +136,26 @@ function ProfileTab(props) {
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <StyledAvatar alt="" src={img} />
           <ProfileInfo>
-            <Typography sx={{ width: 140, color: `${color}` }} variant="subtitle1" fontWeight='bold' fontFamily='Poppins' noWrap>@{name}</Typography>
-            <Typography sx={{ width: 140, color: `${color}` }} variant="body2" fontFamily='Poppins' noWrap> {username}</Typography>
+            <Typography sx={{ display: 'flex', justifyContent: 'left', alignItems: 'center', width: 140, color: `${color}` }} variant="subtitle1" fontWeight='bold' fontFamily='Poppins' noWrap>@{name}</Typography>
+            {/* <Typography sx={{ width: 140, color: `${color}` }} variant="body2" fontFamily='Poppins' noWrap> {username}</Typography> */}
+            {user.is_verified && (
+              <Box sx={{ display: 'flex', justifyContent: 'left', alignItems: 'center', color: `green` }}>
+                <VerifiedRoundedIcon fontSize='32px' />
+                <Typography sx={{ width: 'content', }} fontSize={12} fontWeight='500' fontFamily='Poppins' noWrap> verified</Typography>
+              </Box>
+            )}
+            {!user.is_verified && !user.is_flag && (
+              <Box sx={{ display: 'flex', justifyContent: 'left', alignItems: 'center' }}>
+                <NewReleasesRoundedIcon fontSize='32px' />
+                <Typography sx={{ width: 'content', }} fontSize={12} fontWeight='500' fontFamily='Poppins' noWrap> unverified</Typography>
+              </Box>
+            )}
+            {user.is_flag && (
+              <Box sx={{ display: 'flex', justifyContent: 'left', alignItems: 'center', color: `red` }}>
+                <NewReleasesRoundedIcon fontSize='32px' />
+                <Typography sx={{ width: 'content', }} fontSize={12} fontWeight='500' fontFamily='Poppins' noWrap> cannot be verified</Typography>
+              </Box>
+            )}
           </ProfileInfo>
         </Box>
       </Box>
@@ -160,16 +184,16 @@ function ProfileTab(props) {
           label={
             <ListItem disabled disableGutters>
               <LargeIconListItemIcon>
-                <HistoryIcon  />
+                <HistoryIcon />
               </LargeIconListItemIcon>
               <Typography variant="body1">Purchase History</Typography>
             </ListItem>
           }
         />
         <Divider sx={{ mt: 1, mb: 1, borderBottom: .5, color: '#fff' }} />
-        <StyledTab disabled
+        <StyledTab
           label={
-            <ListItem disabled disableGutters>
+            <ListItem disableGutters>
               <LargeIconListItemIcon>
                 <FavoriteIcon />
               </LargeIconListItemIcon>

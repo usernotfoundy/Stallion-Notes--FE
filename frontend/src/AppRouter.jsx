@@ -7,10 +7,13 @@ import { RegisterPage } from './pages/registerPage';
 import ProfilePage from './pages/ProfilePage';
 import CheckoutPage from './pages/CheckoutPage';
 import ExplorePage from './pages/ExplorePage';
+import VerificationPage from './pages/VerificationPage';
+
+
 
 const AppRouter = () => (
   <Routes>
-    <Route path='' element={<HomePage />} />
+    <Route path='/' element={<HomePage />} />
     <Route path="/about" element={<AboutPage />} />
     <Route path="/contact" element={<ContactPage />} />
     <Route path="/login" element={<LoginPage />} />
@@ -18,6 +21,7 @@ const AppRouter = () => (
     <Route path="/profile/:tab" element={<ProfilePage />} /> {/* Dynamic route */}
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/checkout" element={<CheckoutPage />} />
+    <Route path="/verify" element={<VerificationPage />} />
     {/* Add more routes here */}
   </Routes>
 );

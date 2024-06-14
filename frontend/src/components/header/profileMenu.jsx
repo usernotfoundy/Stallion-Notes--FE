@@ -10,12 +10,13 @@ import { useNavigate } from 'react-router-dom';
 
 
 // const Profile_Url = "http://localhost:8000/static/images/profile/emman_prfl.jpg";
-const VIEW_PROFILE_API_URL = 'https://stallionnotes.pythonanywhere.com/view-profile/';
+const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/';
 
 
 export default function BasicMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const token = localStorage.getItem('authToken');
 
   const [img, setImg] = useState(null);
   const Profile_Url = img;
@@ -57,7 +58,7 @@ export default function BasicMenu() {
     event.preventDefault();
 
     try {
-      localStorage.removeItem('authToken');
+      localStorage.removeItem('authToken', token);
       navigate('/login');
       console.log('Logged out')
     } catch (error) {
@@ -70,6 +71,7 @@ export default function BasicMenu() {
     try {
       // localStorage.removeItem('authToken');
       navigate('/profile/:tab');
+      window.location.reload()
     } catch (error) {
       console.log(error)
     }
@@ -97,7 +99,7 @@ export default function BasicMenu() {
         }}
       >
         <MenuItem onClick={profile} fontFamily='Poppins'>Profile</MenuItem>
-        <MenuItem onClick={handleClose} fontFamily='Poppins'>Settings</MenuItem>
+        {/* <MenuItem onClick={handleClose} fontFamily='Poppins'>Settings</MenuItem> */}
         <MenuItem onClick={logout} fontFamily='Poppins'>Logout</MenuItem>
         {/* <MenuItem onClick={pic}fontFamily='Poppins'>see console</MenuItem> */}
       </Menu>

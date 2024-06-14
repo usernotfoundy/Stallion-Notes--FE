@@ -186,9 +186,8 @@ import SuccessPrompt from '../prompt/successprompt';
 import { useNavigate } from 'react-router-dom';
 
 const color = '#10439f';
-const authToken = localStorage.getItem('authToken')
-const PURCHASE_BOOK_API_URL = 'https://stallionnotes.pythonanywhere.com/purchased-book/'
-const UPDATE_PURCHASE_BOOK_API_URL = 'https://stallionnotes.pythonanywhere.com/update-purchased-book/'
+const PURCHASE_BOOK_API_URL = 'http://127.0.0.1:8000/purchased-book/'
+const UPDATE_PURCHASE_BOOK_API_URL = 'http://127.0.0.1:8000/update-purchased-book/'
 
 export default function CheckoutGrid() {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -211,13 +210,14 @@ export default function CheckoutGrid() {
   const total = fromStored ? fromStored.reduce((acc, item) => acc + item.price, 0) : 0;
 
   const handlePrePurchase = async () => {
+    const authToken = localStorage.getItem('authToken')
     fromStored.forEach(async (item) => {
       const payload = {
         purchase_book: item.book_id,
         seller: item.seller_id,
       };
       try {
-        const response = await axios.post('https://stallionnotes.pythonanywhere.com/purchase-book/', payload, {
+        const response = await axios.post('http://127.0.0.1:8000/purchase-book/', payload, {
           headers: {
             'Authorization': `Bearer ${authToken}`,
             'Content-Type': 'application/json',
@@ -243,6 +243,7 @@ export default function CheckoutGrid() {
   };
 
   const UpdatePurchase = async (id) => {
+    const authToken = localStorage.getItem('authToken')
     try {
       const response = await axios.put(UPDATE_PURCHASE_BOOK_API_URL, { 'book_id': id }, {
         headers: {
@@ -321,7 +322,7 @@ export default function CheckoutGrid() {
 //         seller: item.seller_id,
 //       };
 //       try {
-//         const response = await axios.post('https://stallionnotes.pythonanywhere.com/purchase-book/', payload, {
+//         const response = await axios.post('http://127.0.0.1:8000/purchase-book/', payload, {
 //           headers: {
 //             'Authorization': `Bearer ${authToken}`,
 //             'Content-Type': 'application/json',

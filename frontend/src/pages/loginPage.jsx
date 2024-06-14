@@ -10,7 +10,7 @@ import Axios from 'axios';
 
 
 // Replace '' with your actual backend endpoint URL for login
-const LOGIN_API_URL = 'https://stallionnotes.pythonanywhere.com/login/';
+const LOGIN_API_URL = 'http://127.0.0.1:8000/login/';
 
 const LoginPage = () => {
   const [logged, setLogged] = useState(false);

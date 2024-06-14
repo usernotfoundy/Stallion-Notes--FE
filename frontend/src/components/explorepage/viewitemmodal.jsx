@@ -215,10 +215,9 @@ import ErrorPrompt from '../prompt/errorprompt';
 import FailedPrompt from '../prompt/failedprompt';
 import './viewitemmodal.css';
 
-const ADD_CART_API_URL = 'https://stallionnotes.pythonanywhere.com/add-cart/';
-const token = localStorage.getItem('authToken');
+const ADD_CART_API_URL = 'http://127.0.0.1:8000/add-cart/';
 
-export default function ViewItemModal({ open, handleClose, selectedItem }) {
+export default function ViewItemModal({ open, handleClose, selectedItem, user }) {
     const [showSuccess, setShowSuccess] = useState(false);
     const [showFailed, setShowFailed] = useState(false);
     const [showError, setShowError] = useState(false);
@@ -244,7 +243,7 @@ export default function ViewItemModal({ open, handleClose, selectedItem }) {
     if (!selectedItem) {
         return null;
     }
-    const { id, title, author, isbn, description, price, book_img, book_img_url, genre } = selectedItem;
+    const { id, title, author, isbn, description, price, book_img, book_img_url, genre, seller } = selectedItem;
 
     const handleError = () => {
         setShowError(true);
@@ -253,6 +252,7 @@ export default function ViewItemModal({ open, handleClose, selectedItem }) {
 
 
     const addToCart = async () => {
+        const token = localStorage.getItem('authToken');
         try {
             const response = await axios.post(ADD_CART_API_URL, { 'book': id }, {
                 headers: {
@@ -326,7 +326,8 @@ export default function ViewItemModal({ open, handleClose, selectedItem }) {
                             </Typography>
                             <Divider sx={{ mb: 1, mt: 1 }} />
                             <Typography fontFamily='Poppins'>
-                                Genre: {genre && genre.genre_name}
+                                Genre: {genre}
+                                {/* Genre: {genre && genre.genre_name} */}
                             </Typography>
                             <Typography fontFamily='Poppins'>
                                 Author Name: {author}
@@ -351,8 +352,10 @@ export default function ViewItemModal({ open, handleClose, selectedItem }) {
                             <Typography fontWeight='bold' fontSize={25} fontFamily='Poppins' color='#50623A'>
                                 Php {price}
                             </Typography>
-                            <IconButton aria-label="add to cart" sx={{ width: 45, height: 45, '&:hover ': { scale: '95%' } }} onClick={() => addToCart(selectedItem.id)} disableRipple>
-                                <ShoppingCartIcon sx={{ fontSize: 40, color: '#50623A' }} />
+                            <IconButton aria-label="add to cart" sx={{ width: 45, height: 45, '&:hover ': { scale: '95%' } }} onClick={() => addToCart(selectedItem.id)} disabled={user == seller} disableRipple>
+                                {user !== seller && (
+                                    < ShoppingCartIcon sx={{ fontSize: 40, color: '#50623A' }} />
+                                )}
                             </IconButton>
                             {/* <button onClick={handleError}>Trigger Action</button> */}
                             {/* <FailedPrompt open={showFailed} handleClose={() => setShowFailed(false)} />
@@ -360,7 +363,6 @@ export default function ViewItemModal({ open, handleClose, selectedItem }) {
                         </Box>
                     </Box>
                 </Box>
-
             </Modal>
             <SuccessPrompt open={showSuccess} handleClose={() => setShowSuccess(false)} msg={msg} />
             {showFailed && <FailedPrompt open={showFailed} handleClose={() => setShowFailed(false)} />}

@@ -8,6 +8,9 @@ import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
+
+const nav = useNavigate();
 
 export default function BasicMenu() {
   // MAIPAN JAY MISMO APP.JSX 
@@ -22,6 +25,12 @@ export default function BasicMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.deleteItem('authToken')
+    nav('/')
+  }
 
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -46,16 +55,16 @@ export default function BasicMenu() {
   return (
     <div>
       <Typography variant="h1" color="initial"></Typography>
-          <Container sx={{ width:'30px', display:'flex',justifyContent:'center', mx:'auto', marginRight:'20px'}}
-            id="profile-menu"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-          >
-          <PersonRoundedIcon sx={{color:'#50623A', width:'35px', height:'35px'}}/>
-          <ArrowDropDownRoundedIcon sx={{color:'#50623A', width:'35px', height:'35px'}}/>
-          {/* {loading && <p>Loading image...</p>}
+      <Container sx={{ width: '30px', display: 'flex', justifyContent: 'center', mx: 'auto', marginRight: '20px' }}
+        id="profile-menu"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        <PersonRoundedIcon sx={{ color: '#50623A', width: '35px', height: '35px' }} />
+        <ArrowDropDownRoundedIcon sx={{ color: '#50623A', width: '35px', height: '35px' }} />
+        {/* {loading && <p>Loading image...</p>}
           {error && <p style={{ color: 'red' }}>{error}</p>}
           {imageUrl && (
             <div>
@@ -65,20 +74,20 @@ export default function BasicMenu() {
             </div>
           )} */}
 
-          </Container>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'profile-menu',
-            }}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Menu>
+      </Container>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'profile-menu',
+        }}
+      >
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
     </div>
   );
 }

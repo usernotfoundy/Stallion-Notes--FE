@@ -169,10 +169,22 @@ import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../shoppingcart/CartContext';
+import VerificationModal from "../../pages/verificationmodal";
+
+const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/';
 
 const CartButton = ({ color }) => {
   const { cart, setCart, removeFromCart } = useCart();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [user, setUser] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [msg, setMsg] = useState('Your acount is under review.')
+  const [note, setNote] = useState("Your account has been submitted and will be reviewed by the admin. This may take up to 1-3 hours. You'll be notified once the review is complete.")
+  const [status, setStatus] = useState('error')
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const navigate = useNavigate();
 
   // useEffect(() => {
@@ -194,7 +206,7 @@ const CartButton = ({ color }) => {
     const fetchData = async () => {
       const token = localStorage.getItem('authToken');
       try {
-        const response = await axios.get('https://stallionnotes.pythonanywhere.com/view-cart/', {
+        const response = await axios.get('http://127.0.0.1:8000/view-cart/', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         // Initialize isSelected based on the localStorage or default state
@@ -222,8 +234,42 @@ const CartButton = ({ color }) => {
     const selectedItems = cart.filter(item => item.isSelected);
     localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
     // Ensure that `selectedItems` are fetched and properly used in CheckoutGrid
-    navigate('/checkout');
+    if (user.is_verified)
+      navigate('/checkout');
+    else if (!user.is_verified && !user.is_flag) {
+      setMsg('Your acount is under review.')
+      setNote("Your account has been submitted and will be reviewed by the admin. This may take up to 1-3 hours. You'll be notified once the review is complete.")
+      setStatus('unverified')
+      handleOpen()
+    } else if (user.is_flag) {
+      setMsg('Verification Unsuccessful.')
+      setNote("We regret to inform you that your account verification was not successful. This may be due to incorrect information provided or an inability to verify your identity at this time. \n\nYou can visit our verification hub for further assistance.")
+      setStatus('flagged')
+      handleOpen()
+    }
   };
+
+  useEffect(() => {
+    const reCheck = async () => {
+      const token = localStorage.getItem('authToken');
+
+      try {
+        const response = await axios.get(VIEW_PROFILE_API_URL, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        setUser(response.data)
+        console.log('username ', response.data)
+      } catch (error) {
+        console.error('reCheck: ', error)
+      }
+
+    }
+
+    reCheck()
+  }, [])
 
 
   const total = cart.reduce((sum, item) => item.isSelected ? sum + item.price : sum, 0);
@@ -279,6 +325,7 @@ const CartButton = ({ color }) => {
             </Button>
           </Box>
         </div>
+        <VerificationModal open={open} handleClose={handleClose} msg={msg} note={note} status={status} />
       </Drawer>
     </div>
   );

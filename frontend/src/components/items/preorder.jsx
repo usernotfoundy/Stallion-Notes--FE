@@ -23,14 +23,15 @@ const StyledQRCode = styled(QRCode)({
     height: 128, // Adjust size as needed
 });
 
-const VIEW_PURCHASE_API_URL = 'https://stallionnotes.pythonanywhere.com/view-purchase/';
-const token = localStorage.getItem('authToken');
+const VIEW_PURCHASE_API_URL = 'http://127.0.0.1:8000/view-purchase/';
+
 
 export default function PreOrderBox() {
     const [orders, setOrders] = useState([]);
     const qrCodeRefs = useRef([]);
 
     const fetchData = async () => {
+        const token = localStorage.getItem('authToken');
         try {
             const response = await axios.get(VIEW_PURCHASE_API_URL, {
                 headers: {
@@ -39,6 +40,7 @@ export default function PreOrderBox() {
                 },
             });
             setOrders(response.data);
+            console.log('Orders: ', response.data)
         } catch (error) {
             console.error(error);
         }
@@ -70,8 +72,8 @@ export default function PreOrderBox() {
                                 sx={{ width: '250px', height: '100%', p: '1px', display: 'flex', flexDirection: 'column', backgroundColor: '#FFFFFF' }}
                                 ref={el => qrCodeRefs.current[index] = el}
                             >
-                                <Typography sx={{ padding: '10px 20px 10px 20px', fontSize: '14px', textAlign: 'center', bgcolor: '#c1c6e6', margin: '0 0 20px' }}>
-                                    Please present this to the Stallion-Hub
+                                <Typography sx={{ padding: '10px 20px 10px 20px', fontSize: '14px', textAlign: 'center', bgcolor: '#c1c6e6', margin: '0 0 20px', whiteSpace: 'pre-wrap' }}>
+                                    Please present this to the {'\n'}{item.claim_hub}
                                 </Typography>
                                 <Box>
                                     <StyledQRCode value={`${item.transaction_hash}`} />

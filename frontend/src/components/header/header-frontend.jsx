@@ -15,12 +15,17 @@ import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import CartBtn from './cartbutton';
+import VerificationModal from "../../pages/verificationmodal";
+import NeutralPrompt from '../prompt/neutralprompt';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-const VIEW_BOOKS_API_URL = 'https://stallionnotes.pythonanywhere.com/view-books/'
-const UPLOAD_BOOKS_API_URL = 'https://stallionnotes.pythonanywhere.com/create-book/'
-const SEARCH_BOOKS_API_URL = 'https://stallionnotes.pythonanywhere.com/search-book/'
+const VIEW_BOOKS_API_URL = 'http://127.0.0.1:8000/view-books/';
+const UPLOAD_BOOKS_API_URL = 'http://127.0.0.1:8000/create-book/';
+const SEARCH_BOOKS_API_URL = 'http://127.0.0.1:8000/search-book/';
+const VIEW_GENRE_API_URL = 'http://127.0.0.1:8000/view-genre/';
+const VIEW_PROFILE_API_URL = 'http://127.0.0.1:8000/view-profile/';
 const token = localStorage.getItem('authToken');
+
 const color = '#10439F';
 const genres = [
   { label: 'Science Fiction' },
@@ -36,7 +41,7 @@ function ResponsiveAppBar({ searched, setSearched }) {
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
   const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState(0);
   const [bookImg, setBookImg] = useState(null);
   const [error, setError] = useState('');
   const [input, setInput] = useState([]);
@@ -45,6 +50,24 @@ function ResponsiveAppBar({ searched, setSearched }) {
   const [genre, setGenre] = useState(null)
   const [genreOptions, setGenreOptions] = useState([]); // State to hold genre options
   const [selectedGenre, setSelectedGenre] = useState(null); // State to hold selected genre
+  const [searchField, setSearchField] = useState('');
+
+  const [open, setOpen] = useState(false);
+  const [oOpen, setOopen] = useState(false);
+  const handleoOpen = () => setOopen(true)
+  const handleCClose = () => setOopen(false);
+  const [type, setType] = useState('ERROR!')
+
+  const [msg, setMsg] = useState('Your acount is under review.')
+  const [note, setNote] = useState("Your account has been submitted and will be reviewed by the admin. This may take up to 1-3 hours. You'll be notified once the review is complete.")
+  const [status, setStatus] = useState('error')
+
+  const handleOpen = () => {
+    setOpen(true)
+    setType('SUCCESS!')
+  }
+  const handleClose = () => setOpen(false);
+  const [user, setUser] = useState([]);
 
   const navigate = useNavigate('/');
   const location = useLocation();
@@ -66,7 +89,7 @@ function ResponsiveAppBar({ searched, setSearched }) {
   useEffect(() => {
     const fetchGenreOptions = async () => {
       try {
-        const response = await axios.get('https://stallionnotes.pythonanywhere.com/view-genre/');
+        const response = await axios.get(VIEW_GENRE_API_URL);
         setGenreOptions(response.data); // Set genre options from API response
         // console.log('genre data: ', response.data)
       } catch (error) {
@@ -91,40 +114,56 @@ function ResponsiveAppBar({ searched, setSearched }) {
     }
   };
 
+  useEffect(() => {
+    const reCheck = async () => {
+      const token = localStorage.getItem('authToken');
+
+      try {
+        const response = await axios.get(VIEW_PROFILE_API_URL, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        setUser(response.data)
+        console.log('username ', response.data)
+      } catch (error) {
+        console.error('reCheck: ', error)
+      }
+
+    }
+
+    reCheck()
+  }, [])
+
   const handleOpenUpload = () => {
-    setOpenUpload(true);
+    if (user.is_verified)
+      setOpenUpload(true);
+    else if (!user.is_verified && !user.is_flag) {
+      setMsg('Your acount is under review.')
+      setNote("Your account has been submitted and will be reviewed by the admin. This may take up to 1-3 hours. You'll be notified once the review is complete.")
+      setStatus('unverified')
+      handleOpen()
+    } else if (user.is_flag) {
+      setMsg('Verification Unsuccessful.')
+      setNote("We regret to inform you that your account verification was not successful. This may be due to incorrect information provided or an inability to verify your identity at this time. \n\nYou can visit our verification hub for further assistance.")
+      setStatus('flagged')
+      handleOpen()
+    } else {
+      handleOpen()
+    }
   };
   const handleCloseUpload = () => {
     setOpenUpload(false);
+    setTitle('')
+    setSubtitle('')
+    setDescription('')
+    setPrice('')
+    setSelectedGenre('')
+    setAuthor('')
   };
 
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('subtitle', subtitle);
-    formData.append('price', price);
-    formData.append('book_img', bookImg);
-    formData.append('description', description);
-    formData.append('author', author);
-    formData.append('genre', selectedGenre)
-
-    try {
-      const token = localStorage.getItem('authToken');
-      const response = await axios.post(UPLOAD_BOOKS_API_URL, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log('Upload successful:', response.data);
-      setUpdate(true)
-    } catch (error) {
-      setError('Failed to upload book. Please try again.');
-      console.error('Upload failed:', error);
-    }
-  };
   const cart = (event) => {
     event.preventDefault();
 
@@ -137,30 +176,7 @@ function ResponsiveAppBar({ searched, setSearched }) {
     navigate('/');
   }
 
-  const [searchField, setSearchField] = useState('');
 
-  const fetchData = async (query) => {
-    try {
-      const url = query ? `${SEARCH_BOOKS_API_URL}query=${query}` : "https://stallionnotes.pythonanywhere.com/explore-books/";
-      const response = await axios.get(url, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log("Viewed Searched data", response.data);
-      setSearched(response.data);
-    } catch (err) {
-      console.error('Failed to view searched book information', err);
-      alert('Failed to view searched book information');
-    }
-  };
-  useEffect(() => {
-
-    if (location.pathname === '/explore')
-      fetchData(searchField);
-
-  }, []);
 
   const handleSearchChange = (event) => {
     setSearchField(event.target.value);
@@ -196,7 +212,63 @@ function ResponsiveAppBar({ searched, setSearched }) {
   // })
 
   // console.log('Search Field is ', searched);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('subtitle', subtitle);
+    formData.append('price', price);
+    formData.append('book_img', bookImg);
+    formData.append('description', description);
+    formData.append('author', author);
+    formData.append('genre', selectedGenre);
+    const token = localStorage.getItem('authToken');
 
+    // Debugging: Log FormData entries
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    try {
+      const response = await axios.post(UPLOAD_BOOKS_API_URL, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('Upload successful:', response.data);
+      setOpenUpload(false);
+      handleoOpen()
+      setUpdate(true);
+    } catch (error) {
+      setError('Failed to upload book. Please try again.');
+      console.error('Upload failed:', error.response?.data || error.message);
+    }
+  };
+
+  const fetchData = async (query) => {
+    const token = localStorage.getItem('authToken');
+    try {
+      const url = query ? `${SEARCH_BOOKS_API_URL}query=${query}` : "http://127.0.0.1:8000/explore-books/";
+      const response = await axios.get(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log("Viewed Searched data", response.data);
+      setSearched(response.data);
+    } catch (err) {
+      console.error('Failed to view searched book information', err);
+      alert('Failed to view searched book information');
+    }
+  };
+  useEffect(() => {
+
+    if (location.pathname === '/explore')
+      fetchData(searchField);
+
+  }, []);
 
 
   return (
@@ -252,6 +324,8 @@ function ResponsiveAppBar({ searched, setSearched }) {
           </Toolbar>
         </Container>
         <Divider />
+        <VerificationModal open={open} handleClose={handleClose} msg={msg} note={note} status={status} />
+        {/* <NeutralPrompt oOpen={oOpen} handleClose={handleCClose} type={type} /> */}
       </AppBar>
 
       {/* Simple Form Modal */}
@@ -260,7 +334,7 @@ function ResponsiveAppBar({ searched, setSearched }) {
           <DialogTitle>Upload a Book</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Fill in the book form:
+              Fill all the fields.
             </DialogContentText>
             <TextField
               autoFocus
@@ -320,6 +394,7 @@ function ResponsiveAppBar({ searched, setSearched }) {
             // value={description}
             // onChange={handleChange}
           /> */}
+
             <Stack flexDirection={'row'} gap={1}>
               <TextField
                 margin="dense"
@@ -329,6 +404,7 @@ function ResponsiveAppBar({ searched, setSearched }) {
                 type="number"
                 fullWidth
                 value={price}
+                // value={price ? price : 0}
                 onChange={handlePriceChange}
               />
               <Autocomplete
@@ -342,6 +418,18 @@ function ResponsiveAppBar({ searched, setSearched }) {
                 )}
                 fullWidth
               />
+              {/* <Autocomplete
+                sx={{ mt: 1 }}
+                onChange={(event, newValue) => handleGenreChange(newValue ? newValue.id : null)}
+                options={genreOptions}
+                value={genreOptions.find((option) => option.id === selectedGenre) || null}
+                getOptionLabel={(option) => option.genre_name || ''}
+                renderInput={(params) => (
+                  <TextField {...params} label="Genre" variant="outlined" />
+                )}
+                fullWidth
+              /> */}
+
               {/* <FormControl fullWidth margin="dense">
                 <InputLabel id="genre-label">Genre</InputLabel>
                 <Select
@@ -375,6 +463,9 @@ function ResponsiveAppBar({ searched, setSearched }) {
               </FormControl> */}
 
             </Stack>
+            <DialogContentText>
+              Want to donate? Leave the price as 0.
+            </DialogContentText>
             {/* <TextField
               margin="dense"
               id="price"
@@ -394,7 +485,7 @@ function ResponsiveAppBar({ searched, setSearched }) {
           </DialogContent>
           <DialogActions >
             <Button onClick={handleCloseUpload} color='secondary'>Cancel</Button>
-            <Button type='submit' sx={{ bgcolor: `${color}`, my: '10px' }} variant='contained' onClick={handleCloseUpload}>
+            <Button type='submit' sx={{ bgcolor: `${color}`, my: '10px' }} variant='contained'>
               Submit
             </Button>
           </DialogActions>

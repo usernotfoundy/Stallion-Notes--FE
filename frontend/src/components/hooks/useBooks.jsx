@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 
-const VIEW_BOOKS_API_URL = 'https://stallionnotes.pythonanywhere.com/view-books/'
+const VIEW_BOOKS_API_URL = 'http://localhost:5173/view-books/'
 
 const useBooks = (token) => {
   const [books, setBooks] = useState([]);
